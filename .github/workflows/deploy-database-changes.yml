@@ -5,12 +5,47 @@ on:
     branches:
       - main
     paths:
-      - 'db/**'
+      - 'flyway/**'
   workflow_dispatch:
 
+env:
+  DOCKER_IMAGE: redgate/flyway
+  SCHEMAS: public
+
 jobs:
-  build:
+  Continuous-Integration-Build:
+    name: Continuous Integration Build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: placeholder
-        run: echo 'placeholder'
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Get secrets from AWS Secrets Manager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2.0.1
+        with:
+          secret-ids: SCT, ${{ vars.AWS_SECRET_NAME }}
+          parse-json-secrets: true
+
+      - name: Build JDBC url
+        run: |
+          echo "DB_URL=jdbc:sqlserver://$SCT_HOST:$SCT_PORT;authentication=sqlPassword;databaseName=SpideyCrimeTrackerDB;encrypt=true;trustServerCertificate=true" >> $GITHUB_ENV
+
+      - name: Continuous Integration Flyway Clean Migrate
+        run: >-
+          docker run --rm
+          --net=host
+          --volume ${{ github.workspace }}/flyway/migrations:/flyway/sql:ro
+          "${{ env.DOCKER_IMAGE }}"
+          -url="${{ env.DB_URL }}"
+          -user="${{ env.SCT_USERNAME }}"
+          -password="${{ env.SCT_PASSWORD }}"
+          info migrate
