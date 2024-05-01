@@ -4,12 +4,14 @@ import {
     aws_elasticbeanstalk as elb,
     aws_iam as iam,
     aws_rds as rds,
-    aws_s3_assets as s3Assets
+    aws_s3_assets as s3Assets,
+    RemovalPolicy
 } from 'aws-cdk-lib';
 import {Construct} from "constructs";
 import {Effect, PolicyDocument, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {GitHubStackProps} from "./githubStackProps";
 import {CfnEnvironment} from "aws-cdk-lib/aws-elasticbeanstalk";
+import {Bucket} from "aws-cdk-lib/aws-s3";
 import OptionSettingProperty = CfnEnvironment.OptionSettingProperty;
 
 export class Stack extends cdk.Stack {
@@ -57,51 +59,6 @@ export class Stack extends cdk.Stack {
             securityGroups: [securityGrouup],
         });
 
-        // Create role for github actions to assume
-        const githubDomain = "token.actions.githubusercontent.com";
-
-        const ghProvider = new iam.OpenIdConnectProvider(this, "githubProvider", {
-            url: `https://${githubDomain}`,
-            clientIds: ["sts.amazonaws.com"],
-        });
-
-        const iamRepoDeployAccess = props?.repositoryConfig.map(
-            (r) => `repo:${r.owner}/${r.repo}:*`
-        );
-
-        const conditions: iam.Conditions = {
-            StringLike: {
-                [`${githubDomain}:sub`]: iamRepoDeployAccess,
-            },
-        };
-
-        new iam.Role(this, `${appName}-deploy-role`, {
-            assumedBy: new iam.WebIdentityPrincipal(
-                ghProvider.openIdConnectProviderArn,
-                conditions
-            ),
-            inlinePolicies: {
-                "allowAssumeCDKRoles": new PolicyDocument({
-                    statements: [
-                        new PolicyStatement({
-                            actions: ["sts:AssumeRole"],
-                            effect: Effect.ALLOW,
-                            resources: ["arn:aws:iam::*:role/cdk-*"]
-                        }),
-                        new PolicyStatement({
-                            actions: ["secretsmanager:GetSecretValue"],
-                            effect: Effect.ALLOW,
-                            resources: ["*"]
-                        })
-                    ],
-                }),
-            },
-            roleName: 'SpideyCrimeTrackerDeployRole',
-            description:
-                'This role is used via GitHub Actions to deploy with AWS CDK',
-            maxSessionDuration: cdk.Duration.hours(1),
-        });
-
         // Create elastic beanstalk
         const elbZipArchive = new s3Assets.Asset(this, `${appName}-api-zip`, {
             path: `${__dirname}/../../api`,
@@ -110,7 +67,6 @@ export class Stack extends cdk.Stack {
         const elbApp = new elb.CfnApplication(this, `${appName}-elasticbeanstalk`, {
             applicationName: appName
         });
-
         const appVersionProps = new elb.CfnApplicationVersion(this, `${appName}-app-version`, {
             applicationName: appName,
             sourceBundle: {
@@ -162,6 +118,11 @@ export class Stack extends cdk.Stack {
                 optionName: 'Subnets',
                 value: vpc.publicSubnets.map((subnet) => subnet.subnetId).join(",")
             },
+            {
+                namespace: 'aws:elasticbeanstalk:application:environment',
+                optionName: 'PORT',
+                value: '3000'
+            },
         ];
 
         const elbEnv = new elb.CfnEnvironment(this, `${appName}-env`, {
@@ -172,5 +133,71 @@ export class Stack extends cdk.Stack {
             versionLabel: appVersionProps.ref,
         });
 
+        // S3 Bucket for frontend deployment
+        const frontendBucket = new Bucket(this, 'frontend-bucket', {
+            bucketName: `${appName}-frontend`,
+            publicReadAccess: true,
+            removalPolicy: RemovalPolicy.DESTROY,
+            websiteIndexDocument: 'index.html',
+            blockPublicAccess: {
+                blockPublicAcls: false,
+                blockPublicPolicy: false,
+                ignorePublicAcls: false,
+                restrictPublicBuckets: false,
+            }
+        })
+
+        // Create role for github actions to assume
+        const githubDomain = "token.actions.githubusercontent.com";
+
+        const ghProvider = new iam.OpenIdConnectProvider(this, "githubProvider", {
+            url: `https://${githubDomain}`,
+            clientIds: ["sts.amazonaws.com"],
+        });
+
+        const iamRepoDeployAccess = props?.repositoryConfig.map(
+            (r) => `repo:${r.owner}/${r.repo}:*`
+        );
+
+        const conditions: iam.Conditions = {
+            StringLike: {
+                [`${githubDomain}:sub`]: iamRepoDeployAccess,
+            },
+        };
+
+        const elbUpdatesPolicy = iam.ManagedPolicy.fromAwsManagedPolicyName('AWSElasticBeanstalkManagedUpdatesCustomerRolePolicy')
+
+        new iam.Role(this, `${appName}-deploy-role`, {
+            assumedBy: new iam.WebIdentityPrincipal(
+                ghProvider.openIdConnectProviderArn,
+                conditions
+            ),
+            inlinePolicies: {
+                "allowAssumeCDKRoles": new PolicyDocument({
+                    statements: [
+                        new PolicyStatement({
+                            actions: ["sts:AssumeRole"],
+                            effect: Effect.ALLOW,
+                            resources: ["arn:aws:iam::*:role/cdk-*"]
+                        }),
+                        new PolicyStatement({
+                            actions: ["secretsmanager:GetSecretValue"],
+                            effect: Effect.ALLOW,
+                            resources: ["*"]
+                        }),
+                        new PolicyStatement({
+                            actions: ["s3:*"],
+                            effect: Effect.ALLOW,
+                            resources: [frontendBucket.bucketArn]
+                        })
+                    ],
+                }),
+            },
+            managedPolicies: [elbWebTierPolicy, elbUpdatesPolicy],
+            roleName: 'SpideyCrimeTrackerDeployRole',
+            description:
+                'This role is used via GitHub Actions to deploy with AWS CDK',
+            maxSessionDuration: cdk.Duration.hours(1),
+        });
     }
 }

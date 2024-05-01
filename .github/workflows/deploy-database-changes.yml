@@ -1,0 +1,16 @@
+name: Deploy Database Changes
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'db/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: placeholder
+        run: echo 'placeholder'
