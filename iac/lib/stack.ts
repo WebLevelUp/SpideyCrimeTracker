@@ -57,51 +57,6 @@ export class Stack extends cdk.Stack {
             securityGroups: [securityGrouup],
         });
 
-        // Create role for github actions to assume
-        const githubDomain = "token.actions.githubusercontent.com";
-
-        const ghProvider = new iam.OpenIdConnectProvider(this, "githubProvider", {
-            url: `https://${githubDomain}`,
-            clientIds: ["sts.amazonaws.com"],
-        });
-
-        const iamRepoDeployAccess = props?.repositoryConfig.map(
-            (r) => `repo:${r.owner}/${r.repo}:*`
-        );
-
-        const conditions: iam.Conditions = {
-            StringLike: {
-                [`${githubDomain}:sub`]: iamRepoDeployAccess,
-            },
-        };
-
-        new iam.Role(this, `${appName}-deploy-role`, {
-            assumedBy: new iam.WebIdentityPrincipal(
-                ghProvider.openIdConnectProviderArn,
-                conditions
-            ),
-            inlinePolicies: {
-                "allowAssumeCDKRoles": new PolicyDocument({
-                    statements: [
-                        new PolicyStatement({
-                            actions: ["sts:AssumeRole"],
-                            effect: Effect.ALLOW,
-                            resources: ["arn:aws:iam::*:role/cdk-*"]
-                        }),
-                        new PolicyStatement({
-                            actions: ["secretsmanager:GetSecretValue"],
-                            effect: Effect.ALLOW,
-                            resources: ["*"]
-                        })
-                    ],
-                }),
-            },
-            roleName: 'SpideyCrimeTrackerDeployRole',
-            description:
-                'This role is used via GitHub Actions to deploy with AWS CDK',
-            maxSessionDuration: cdk.Duration.hours(1),
-        });
-
         // Create elastic beanstalk
         const elbZipArchive = new s3Assets.Asset(this, `${appName}-api-zip`, {
             path: `${__dirname}/../../api`,
@@ -110,7 +65,6 @@ export class Stack extends cdk.Stack {
         const elbApp = new elb.CfnApplication(this, `${appName}-elasticbeanstalk`, {
             applicationName: appName
         });
-
         const appVersionProps = new elb.CfnApplicationVersion(this, `${appName}-app-version`, {
             applicationName: appName,
             sourceBundle: {
@@ -162,6 +116,26 @@ export class Stack extends cdk.Stack {
                 optionName: 'Subnets',
                 value: vpc.publicSubnets.map((subnet) => subnet.subnetId).join(",")
             },
+            {
+                namespace: 'aws:elasticbeanstalk:application:environment',
+                optionName: 'PORT',
+                value: '3000'
+            },
+            {
+                namespace: 'aws:elasticbeanstalk:application:environment',
+                optionName: 'DB_USERNAME',
+                value: 'username'
+            },
+            {
+                namespace: 'aws:elasticbeanstalk:application:environment',
+                optionName: 'DB_PASSWORD',
+                value: 'password'
+            },
+            {
+                namespace: 'aws:elasticbeanstalk:application:environment',
+                optionName: 'DB_HOST',
+                value: 'host'
+            }
         ];
 
         const elbEnv = new elb.CfnEnvironment(this, `${appName}-env`, {
@@ -172,5 +146,52 @@ export class Stack extends cdk.Stack {
             versionLabel: appVersionProps.ref,
         });
 
+        // Create role for github actions to assume
+        const githubDomain = "token.actions.githubusercontent.com";
+
+        const ghProvider = new iam.OpenIdConnectProvider(this, "githubProvider", {
+            url: `https://${githubDomain}`,
+            clientIds: ["sts.amazonaws.com"],
+        });
+
+        const iamRepoDeployAccess = props?.repositoryConfig.map(
+            (r) => `repo:${r.owner}/${r.repo}:*`
+        );
+
+        const conditions: iam.Conditions = {
+            StringLike: {
+                [`${githubDomain}:sub`]: iamRepoDeployAccess,
+            },
+        };
+
+        const elbUpdatesPolicy = iam.ManagedPolicy.fromAwsManagedPolicyName('AWSElasticBeanstalkManagedUpdatesCustomerRolePolicy')
+
+        new iam.Role(this, `${appName}-deploy-role`, {
+            assumedBy: new iam.WebIdentityPrincipal(
+                ghProvider.openIdConnectProviderArn,
+                conditions
+            ),
+            inlinePolicies: {
+                "allowAssumeCDKRoles": new PolicyDocument({
+                    statements: [
+                        new PolicyStatement({
+                            actions: ["sts:AssumeRole"],
+                            effect: Effect.ALLOW,
+                            resources: ["arn:aws:iam::*:role/cdk-*"]
+                        }),
+                        new PolicyStatement({
+                            actions: ["secretsmanager:GetSecretValue"],
+                            effect: Effect.ALLOW,
+                            resources: ["*"]
+                        }),
+                    ],
+                }),
+            },
+            managedPolicies: [elbWebTierPolicy, elbUpdatesPolicy],
+            roleName: 'SpideyCrimeTrackerDeployRole',
+            description:
+                'This role is used via GitHub Actions to deploy with AWS CDK',
+            maxSessionDuration: cdk.Duration.hours(1),
+        });
     }
 }

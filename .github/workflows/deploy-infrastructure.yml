@@ -1,7 +1,12 @@
 name: Deploy Infrastructure
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - main
+    paths:
+      - 'iac/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -27,4 +32,7 @@ jobs:
         run: npm install -g aws-cdk
 
       - name: Deploy Infrastructure
-        run: cdk deploy --require-approval never
+        working-directory: iac
+        run: |
+          npm ci
+          cdk deploy --require-approval never
