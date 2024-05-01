@@ -4,12 +4,14 @@ import {
     aws_elasticbeanstalk as elb,
     aws_iam as iam,
     aws_rds as rds,
-    aws_s3_assets as s3Assets
+    aws_s3_assets as s3Assets,
+    RemovalPolicy
 } from 'aws-cdk-lib';
 import {Construct} from "constructs";
 import {Effect, PolicyDocument, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {GitHubStackProps} from "./githubStackProps";
 import {CfnEnvironment} from "aws-cdk-lib/aws-elasticbeanstalk";
+import {Bucket} from "aws-cdk-lib/aws-s3";
 import OptionSettingProperty = CfnEnvironment.OptionSettingProperty;
 
 export class Stack extends cdk.Stack {
@@ -121,21 +123,6 @@ export class Stack extends cdk.Stack {
                 optionName: 'PORT',
                 value: '3000'
             },
-            {
-                namespace: 'aws:elasticbeanstalk:application:environment',
-                optionName: 'DB_USERNAME',
-                value: 'username'
-            },
-            {
-                namespace: 'aws:elasticbeanstalk:application:environment',
-                optionName: 'DB_PASSWORD',
-                value: 'password'
-            },
-            {
-                namespace: 'aws:elasticbeanstalk:application:environment',
-                optionName: 'DB_HOST',
-                value: 'host'
-            }
         ];
 
         const elbEnv = new elb.CfnEnvironment(this, `${appName}-env`, {
@@ -145,6 +132,20 @@ export class Stack extends cdk.Stack {
             optionSettings: optionSettingProperties,
             versionLabel: appVersionProps.ref,
         });
+
+        // S3 Bucket for frontend deployment
+        const frontendBucket = new Bucket(this, 'frontend-bucket', {
+            bucketName: `${appName}-frontend`,
+            publicReadAccess: true,
+            removalPolicy: RemovalPolicy.DESTROY,
+            websiteIndexDocument: 'index.html',
+            blockPublicAccess: {
+                blockPublicAcls: false,
+                blockPublicPolicy: false,
+                ignorePublicAcls: false,
+                restrictPublicBuckets: false,
+            }
+        })
 
         // Create role for github actions to assume
         const githubDomain = "token.actions.githubusercontent.com";
@@ -184,6 +185,11 @@ export class Stack extends cdk.Stack {
                             effect: Effect.ALLOW,
                             resources: ["*"]
                         }),
+                        new PolicyStatement({
+                            actions: ["s3:*"],
+                            effect: Effect.ALLOW,
+                            resources: [frontendBucket.bucketArn]
+                        })
                     ],
                 }),
             },
