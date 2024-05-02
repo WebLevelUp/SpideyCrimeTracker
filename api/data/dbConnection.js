@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import {Connection, Request} from 'tedious';
 
 let config = {

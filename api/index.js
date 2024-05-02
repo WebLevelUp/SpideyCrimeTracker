@@ -1,8 +1,8 @@
-import express from "express";
+import express from 'express';
 import 'dotenv/config'
-import {helloWorldController} from "./controllers/helloWorldController.js";
-import {connection, executeStatement} from "./data/dbConnection.js";
-import {TYPES} from 'tedious';
+import {helloWorldController} from './controllers/helloWorldController.js';
+import {connection, executeStatement} from './data/dbConnection.js';
+import {TYPES} from 'tedious'; // TODO: REMOVE WHEN LOGIC FINALISED
 
 const app = express()
 
@@ -10,6 +10,7 @@ helloWorldController(app)
 
 app.listen(3000)
 
+//TODO: MOVE LOGIC ONCE ORM ARE MADE
 connection.on('connect', function (err) {
     if (err) {
         console.log('Error: ', err)
