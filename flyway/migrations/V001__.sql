@@ -1,57 +1,57 @@
 CREATE TABLE [Area] (
-  [areaId] int PRIMARY KEY,
-  [suburb] varchar(50),
-  [province] varchar(50)
-)
-GO
+    [areaId] int PRIMARY KEY IDENTITY(1, 1),
+    [suburb] varchar(50),
+    [province] varchar(50)
+    )
+    GO
 
 CREATE TABLE [User] (
-  [userId] int PRIMARY KEY,
-  [username] varchar(max),
-  [roleId] int
-)
-GO
+    [userId] int PRIMARY KEY IDENTITY(1, 1),
+    [username] varchar(max),
+    [roleId] int
+    )
+    GO
 
 CREATE TABLE [Incident] (
-  [incidentId] int PRIMARY KEY,
-  [date] datetime2,
-  [description] varchar(max),
-  [userId] int,
-  [hotspotId] int
-)
-GO
+    [incidentId] int PRIMARY KEY IDENTITY(1, 1),
+    [date] datetime2,
+    [description] varchar(max),
+    [userId] int,
+    [hotspotId] int
+    )
+    GO
 
 CREATE TABLE [Role] (
-  [roleId] int PRIMARY KEY,
-  [roleType] varchar(50)
-)
-GO
+    [roleId] int PRIMARY KEY IDENTITY(1, 1),
+    [roleType] varchar(50)
+    )
+    GO
 
 CREATE TABLE [HotspotType] (
-  [hotspotTypeId] int PRIMARY KEY,
-  [hotspotType] varchar(50)
-)
-GO
+    [hotspotTypeId] int PRIMARY KEY IDENTITY(1, 1),
+    [hotspotType] varchar(50)
+    )
+    GO
 
 CREATE TABLE [Hotspot] (
-  [hotspotId] int PRIMARY KEY,
-  [description] varchar(max),
-  [areaId] int,
-  [hotspotTypeId] int
-)
-GO
+    [hotspotId] int PRIMARY KEY IDENTITY(1, 1),
+    [description] varchar(max),
+    [areaId] int,
+    [hotspotTypeId] int
+    )
+    GO
 
 ALTER TABLE [User] ADD FOREIGN KEY ([roleId]) REFERENCES [Role] ([roleId])
-GO
+    GO
 
 ALTER TABLE [Incident] ADD FOREIGN KEY ([userId]) REFERENCES [User] ([userId])
-GO
+    GO
 
 ALTER TABLE [Incident] ADD FOREIGN KEY ([hotspotId]) REFERENCES [Hotspot] ([hotspotId])
-GO
+    GO
 
 ALTER TABLE [Hotspot] ADD FOREIGN KEY ([areaId]) REFERENCES [Area] ([areaId])
-GO
+    GO
 
 ALTER TABLE [Hotspot] ADD FOREIGN KEY ([hotspotTypeId]) REFERENCES [HotspotType] ([hotspotTypeId])
-GO
+    GO
