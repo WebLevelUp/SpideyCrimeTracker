@@ -1,29 +1,17 @@
 import express from 'express';
-import 'dotenv/config'
-import {helloWorldController} from './controllers/helloWorldController.js';
-import {connection, executeStatement} from './data/dbConnection.js';
-import {TYPES} from 'tedious'; // TODO: REMOVE WHEN LOGIC FINALISED
+import 'dotenv/config';
+import {areaController} from './controllers/areaController.js';
+import {errorHandler} from './middleware/errorHandler.js';
 
-const app = express()
+export const app = express();
+app.use(express.json());
+app.use(errorHandler);
 
-helloWorldController(app)
 
-app.listen(3000)
+areaController();
 
-//TODO: MOVE LOGIC ONCE ORM ARE MADE
-connection.on('connect', function (err) {
-    if (err) {
-        console.log('Error: ', err)
-    } else {
-        console.log('Connection established.');
-    }
-    const query = 'SELECT * FROM SpideyCrimeTrackerDB.dbo.Area WHERE province = @province';
-    const params = [
-        {name: 'province', type: TYPES.VarChar, value: 'Gauteng'}, // Ensure proper name, type, and value
-    ];
-    executeStatement(query, params);
-});
+app.listen(3000);
 
-if (connection.state !== 'Connecting' && connection.state !== 'Connected') {
-    connection.connect();
-}
+process.on('uncaughtException', err => {
+    console.log(`Uncaught Exception: ${err.message}`);
+})

@@ -1,13 +1,16 @@
 import {Connection, Request} from 'tedious';
 
-let config = {
+const config = {
     server: process.env.DB_HOST,
+    database: 'SpideyCrimeTrackerDB',
     options: {
         encrypt: false,
         trustServerCertificate: true,
+        rowCollectionOnRequestCompletion: true,
+        useColumnNames: true,
     },
     authentication: {
-        type: "default",
+        type: 'default',
         options: {
             userName: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
@@ -15,26 +18,44 @@ let config = {
     }
 };
 
-export let connection = new Connection(config);
 
 export function executeStatement(query, params = []) {
-    let request = new Request(query, function (err, rowCount) {
-        if (err) {
-            console.error('Request error:', err);
-        } else {
-            console.log(`${rowCount} rows`);
-            connection.close();
+    return new Promise((resolve, reject) => {
+        const connection = new Connection(config);
+
+        connection.connect();
+
+        connection.on('connect', (err) => {
+            if (err) {
+                console.log('Error: ', err);
+                reject(err);
+            }
+
+            const request = new Request(query, (err, rowCount, rows) => {
+                if (err) {
+                    console.error('Request error:', err);
+                    reject(err);
+                }
+                resolve(mapRows(rows));
+                connection.close();
+            });
+
+            for (const param of params) {
+                request.addParameter(param.name, param.type, param.value);
+            }
+
+            connection.execSql(request);
+        });
+    });
+}
+
+function mapRows(rows) {
+    return rows.map((row) => {
+        const keys = Object.keys(row);
+        const obj = {};
+        for (const key of keys) {
+            obj[key] = row[key].value;
         }
+        return obj;
     });
-
-    request.on('row', function (columns) {
-        const rowValues = columns.map((column) => `${column.metadata.colName}: ${column.value}`);
-        console.log('Row:', rowValues.join(', '));
-    });
-
-    for (let param of params) {
-        request.addParameter(param.name, param.type, param.value);
-    }
-
-    connection.execSql(request);
 }
