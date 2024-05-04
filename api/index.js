@@ -2,16 +2,20 @@ import express from 'express';
 import 'dotenv/config';
 import {areaController} from './controllers/areaController.js';
 import {errorHandler} from './middleware/errorHandler.js';
+import {authController} from './controllers/authController.js';
+import {authMiddleware} from './middleware/authMiddleware.js';
 
 export const app = express();
 app.use(express.json());
+app.use(authMiddleware);
 app.use(errorHandler);
 
 
 areaController();
+authController();
 
 app.listen(3000);
 
 process.on('uncaughtException', err => {
     console.log(`Uncaught Exception: ${err.message}`);
-})
+});
