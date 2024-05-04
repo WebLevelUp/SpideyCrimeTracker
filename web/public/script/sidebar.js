@@ -1,12 +1,10 @@
 function toggleSidebar() {
     let sidebar = document.querySelector('.sidebar');
     let btn = document.querySelector('.btn');
-    
+
     sidebar.classList.toggle('active');
     btn.classList.toggle('change');
 }
-
-document.querySelector('.btn').onclick = toggleSidebar;
 
 // const sidebarItems = [
 //     { icon: '../images/spyware.jpg', text: 'Report a crime', tooltip: 'Report a crime', link: '#' },
