@@ -17,7 +17,6 @@ function router(path, saveHistory = true) {
     const route = routes.find(route => route.path === path);
     loadPage(route.filename).then(page => {
         const urlPath = `${path}`;
-        console.log(page);
         content.innerHTML = page;
         if (saveHistory) {
             history.pushState({}, '', urlPath);
