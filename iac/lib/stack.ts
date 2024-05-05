@@ -194,7 +194,7 @@ export class Stack extends cdk.Stack {
         ];
 
         const elbEnvFe = new elb.CfnEnvironment(this, `${webAppName}-env`, {
-            environmentName: `${appName}`,
+            environmentName: `${webAppName}`,
             applicationName: webAppName,
             solutionStackName: '64bit Amazon Linux 2023 v6.1.3 running Node.js 20',
             optionSettings: optionSettingPropertiesFe,
