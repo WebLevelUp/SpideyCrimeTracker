@@ -4,6 +4,7 @@ import {areaController} from './controllers/areaController.js';
 import {errorHandler} from './middleware/errorHandler.js';
 import {authController} from './controllers/authController.js';
 import {authMiddleware} from './middleware/authMiddleware.js';
+import {hotspotController} from "./controllers/hotspotController.js";
 
 export const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ app.use(errorHandler);
 
 
 areaController();
+hotspotController();
 authController();
 
 app.listen(3000);
