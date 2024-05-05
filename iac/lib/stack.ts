@@ -4,14 +4,12 @@ import {
     aws_elasticbeanstalk as elb,
     aws_iam as iam,
     aws_rds as rds,
-    aws_s3_assets as s3Assets,
-    RemovalPolicy
+    aws_s3_assets as s3Assets
 } from 'aws-cdk-lib';
 import {Construct} from "constructs";
 import {Effect, PolicyDocument, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {GitHubStackProps} from "./githubStackProps";
 import {CfnEnvironment} from "aws-cdk-lib/aws-elasticbeanstalk";
-import {Bucket} from "aws-cdk-lib/aws-s3";
 import OptionSettingProperty = CfnEnvironment.OptionSettingProperty;
 
 export class Stack extends cdk.Stack {
@@ -133,19 +131,75 @@ export class Stack extends cdk.Stack {
             versionLabel: appVersionProps.ref,
         });
 
-        // S3 Bucket for frontend deployment
-        const frontendBucket = new Bucket(this, 'frontend-bucket', {
-            bucketName: `${appName}-frontend`,
-            publicReadAccess: true,
-            removalPolicy: RemovalPolicy.DESTROY,
-            websiteIndexDocument: 'index.html',
-            blockPublicAccess: {
-                blockPublicAcls: false,
-                blockPublicPolicy: false,
-                ignorePublicAcls: false,
-                restrictPublicBuckets: false,
-            }
-        })
+        // Create elastic beanstalk frontend
+        const webAppName = `${appName}-web`
+        const elbFeZipArchive = new s3Assets.Asset(this, `${webAppName}-zip`, {
+            path: `${__dirname}/../../web`,
+        });
+
+        const elbFeApp = new elb.CfnApplication(this, `${webAppName}-elasticbeanstalk`, {
+            applicationName: webAppName
+        });
+        const appVersionPropsFe = new elb.CfnApplicationVersion(this, `${webAppName}-app-version`, {
+            applicationName: webAppName,
+            sourceBundle: {
+                s3Bucket: elbFeZipArchive.s3BucketName,
+                s3Key: elbFeZipArchive.s3ObjectKey,
+            },
+        });
+
+        appVersionPropsFe.addDependency(elbFeApp);
+
+        const elbFeWebTierPolicy = iam.ManagedPolicy.fromAwsManagedPolicyName('AWSElasticBeanstalkWebTier')
+
+        const instanceProfileNameFe = `${webAppName}-instance-profile`
+
+        const instanceProfileFe = new iam.CfnInstanceProfile(this, instanceProfileNameFe, {
+            instanceProfileName: instanceProfileNameFe,
+            roles: [
+                elbRole.roleName
+            ]
+        });
+        const optionSettingPropertiesFe: OptionSettingProperty[] = [
+            {
+                namespace: 'aws:autoscaling:launchconfiguration',
+                optionName: 'IamInstanceProfile',
+                value: instanceProfileNameFe,
+            },
+            {
+                namespace: 'aws:autoscaling:asg',
+                optionName: 'MaxSize',
+                value: '1',
+            },
+            {
+                namespace: 'aws:ec2:instances',
+                optionName: 'InstanceTypes',
+                value: 't3.micro',
+            },
+            {
+                namespace: 'aws:ec2:vpc',
+                optionName: 'VPCId',
+                value: vpc.vpcId,
+            },
+            {
+                namespace: 'aws:ec2:vpc',
+                optionName: 'Subnets',
+                value: vpc.publicSubnets.map((subnet) => subnet.subnetId).join(",")
+            },
+            {
+                namespace: 'aws:elasticbeanstalk:application:environment',
+                optionName: 'PORT',
+                value: '3001'
+            },
+        ];
+
+        const elbEnvFe = new elb.CfnEnvironment(this, `${webAppName}-env`, {
+            environmentName: `${appName}`,
+            applicationName: webAppName,
+            solutionStackName: '64bit Amazon Linux 2023 v6.1.3 running Node.js 20',
+            optionSettings: optionSettingPropertiesFe,
+            versionLabel: appVersionPropsFe.ref,
+        });
 
         // Create role for github actions to assume
         const githubDomain = "token.actions.githubusercontent.com";
@@ -184,11 +238,6 @@ export class Stack extends cdk.Stack {
                             actions: ["secretsmanager:GetSecretValue"],
                             effect: Effect.ALLOW,
                             resources: ["*"]
-                        }),
-                        new PolicyStatement({
-                            actions: ["s3:*"],
-                            effect: Effect.ALLOW,
-                            resources: [frontendBucket.bucketArn]
                         })
                     ],
                 }),
