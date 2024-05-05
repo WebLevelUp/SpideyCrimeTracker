@@ -4,6 +4,8 @@ import {areaController} from './controllers/areaController.js';
 import {errorHandler} from './middleware/errorHandler.js';
 import {authController} from './controllers/authController.js';
 import {authMiddleware} from './middleware/authMiddleware.js';
+import {roleController} from './controllers/roleController.js';
+import {userController} from './controllers/userController.js';
 
 export const app = express();
 app.use(express.json());
@@ -13,6 +15,8 @@ app.use(errorHandler);
 
 areaController();
 authController();
+roleController();
+userController();
 
 app.listen(3000);
 
