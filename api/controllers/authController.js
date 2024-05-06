@@ -1,5 +1,7 @@
 import {app} from '../index.js';
 import jwt from 'jsonwebtoken';
+import {createUser, getUserByUsername} from '../data/userRepository.js';
+import {getRoleById, getRoleByRoleType} from '../data/roleRepository.js';
 
 export function authController() {
     app.post('/auth/login', async (req, res) => {
@@ -31,22 +33,28 @@ export function authController() {
                 'Accept': 'application/json',
             }
         });
-
         const {login: username} = await userDetailsResponse.json();
-        // TODO save user if not exists with role 'user', else fetch user and role
+        const user = await getUserByUsername(username);
+        let role;
 
-        const role = 'user'; //TODO update after implementing roles
+        if (!user) {
+            role = await getRoleByRoleType('user');
+            await createUser(username, role.roleId);
+        } else {
+            role = await getRoleById(user.roleId);
+        }
+
         const jwtSecret = process.env.JWT_SECRET;
 
         const jwtToken = jwt.sign({
             'username': username,
-            'role': role
+            'role': role.roleType
         }, jwtSecret, {expiresIn: '1h', issuer: 'spidey-crime-tracker'});
 
         res.send({
             'access_token': jwtToken,
             'username': username,
-            'role': role
+            'role': role.roleType
         });
     });
 }
