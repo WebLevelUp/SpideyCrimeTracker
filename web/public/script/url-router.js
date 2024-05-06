@@ -5,13 +5,24 @@ const routes = [
         scripts: ['sidebar.js']
     },
     {
+        path: '/report',
+        filename: 'report.html',
+        scripts: ['report.js', 'sidebar.js'],
+        styles: ['report.css', 'sidebar.css'],
+        // includeSidebar: true 
+    },
+    {
         path: '/recent',
         filename: 'recent.html',
+        scripts: ['recent.js'],
+        styles: ['recent.css'],
+        // includeSidebar: true 
     }
 ];
 
 const content = document.getElementById('content');
 const loadedScripts = [];
+const loadedStyles = []
 
 function router(path, saveHistory = true) {
     const route = routes.find(route => route.path === path);
@@ -22,8 +33,15 @@ function router(path, saveHistory = true) {
             history.pushState({}, '', urlPath);
         }
     }).then(() => {
+        if (route.includeSidebar) {
+            loadSidebar();
+            loadScripts(route.scripts);
+        }
         if (route.scripts) {
             loadScripts(route.scripts);
+        }
+        if (route.styles) {
+            loadStyles(route.styles);
         }
     });
 }
@@ -54,6 +72,27 @@ function loadScripts(scripts) {
         });
 }
 
+function loadStyles(styles) {
+    styles
+        .filter((path) => !loadedStyles.includes(path))
+        .map((path) => {
+            const styleElement = document.createElement('link');
+            loadedStyles.push(path);
+            styleElement.setAttribute('href', `./css/${path}`);
+            styleElement.setAttribute('rel', 'stylesheet');
+
+            document.head.appendChild(styleElement);
+
+            styleElement.addEventListener('load', () => {
+                console.log('Style loaded');
+            });
+
+            styleElement.addEventListener('error', (err) => {
+                console.log('Error on loading style: ', err);
+            });
+        });
+}
+
 window.addEventListener('popstate', () => {
     router(location.pathname, false);
 });
@@ -62,3 +101,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const path = location.pathname || '/';
     router(path);
 });
+
+async function loadSidebar() {
+    const sidebar = await loadPage('sidebar.html');
+    content.innerHTML += sidebar;
+}
