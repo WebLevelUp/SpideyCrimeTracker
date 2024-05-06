@@ -4,6 +4,7 @@ import {areaController} from './controllers/areaController.js';
 import {errorHandler} from './middleware/errorHandler.js';
 import {authController} from './controllers/authController.js';
 import {authMiddleware} from './middleware/authMiddleware.js';
+import {hotspotController} from "./controllers/hotspotController.js";
 import {roleController} from './controllers/roleController.js';
 import {userController} from './controllers/userController.js';
 
@@ -14,6 +15,7 @@ app.use(errorHandler);
 
 
 areaController();
+hotspotController();
 authController();
 roleController();
 userController();
