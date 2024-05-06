@@ -7,6 +7,7 @@ import {authMiddleware} from './middleware/authMiddleware.js';
 import {hotspotController} from "./controllers/hotspotController.js";
 import {roleController} from './controllers/roleController.js';
 import {userController} from './controllers/userController.js';
+import {hotspotTypeController} from './controllers/hotspotTypeController.js';
 
 export const app = express();
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(errorHandler);
 
 areaController();
 hotspotController();
+hotspotTypeController();
 authController();
 roleController();
 userController();
