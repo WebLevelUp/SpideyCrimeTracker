@@ -24,7 +24,7 @@ export function createHotspotType(hotspotTypeDto) {
     const query = `INSERT INTO ${tableName} (hotspotType)
                    VALUES (@hotspotType)`;
     const params = [
-        {name: 'hotspotType', type: TYPES.Int, value: hotspotTypeDto.hotspotType},
+        {name: 'hotspotType', type: TYPES.VarChar, value: hotspotTypeDto.hotspotType},
     ];
 
     return executeStatement(query, params);
