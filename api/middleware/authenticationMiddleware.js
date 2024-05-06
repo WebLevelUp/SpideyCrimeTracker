@@ -4,9 +4,9 @@ import jwt from 'jsonwebtoken';
  *
  * @param {Request<>} req
  * @param {Response<ResBody, LocalsObj>} res
- * @param next
+ * @param {function()} next
  */
-export function authMiddleware(req, res, next) {
+export function authenticationMiddleware(req, res, next) {
     const path = req.path;
     if (req.path === '/auth/login') {
         console.debug('Skipping auth for login endpoint');
@@ -26,7 +26,8 @@ export function authMiddleware(req, res, next) {
 
     const jwtSecret = process.env.JWT_SECRET;
     try {
-        jwt.verify(token, jwtSecret, {issuer: 'spidey-crime-tracker'});
+        const decoded = jwt.verify(token, jwtSecret, {issuer: 'spidey-crime-tracker'});
+        req.headers.role = decoded.role;
     } catch (err) {
         return res.status(401).send({'Error': 'Token invalid. Please login again'});
     }
