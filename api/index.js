@@ -9,6 +9,7 @@ import {roleController} from './controllers/roleController.js';
 import {userController} from './controllers/userController.js';
 import {hotspotTypeController} from './controllers/hotspotTypeController.js';
 import {authorizationMiddleware} from './middleware/authorizationMiddleware.js';
+import {corsMiddleware} from './middleware/corsMiddleware.js';
 
 const protectedRoutes = {
     '/user': ['PUT', 'GET'],
@@ -20,6 +21,7 @@ const protectedRoutes = {
 
 export const app = express();
 app.use(express.json());
+app.use(corsMiddleware);
 app.use(authenticationMiddleware);
 app.use(authorizationMiddleware(protectedRoutes));
 app.use(errorHandler);

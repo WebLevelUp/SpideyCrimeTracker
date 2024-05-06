@@ -1,3 +1,7 @@
+import {postAuth} from './login.js';
+
+export const state = {};
+
 const routes = [
     {
         path: '/',
@@ -13,7 +17,12 @@ const routes = [
 const content = document.getElementById('content');
 const loadedScripts = [];
 
-function router(path, saveHistory = true) {
+export function router(path, saveHistory = true) {
+    if (path === '/auth') {
+        postAuth().then(() => router('/'));
+        return;
+    }
+
     const route = routes.find(route => route.path === path);
     loadPage(route.filename).then(page => {
         const urlPath = `${path}`;
@@ -62,3 +71,5 @@ window.addEventListener('DOMContentLoaded', () => {
     const path = location.pathname || '/';
     router(path);
 });
+
+window.router = router;

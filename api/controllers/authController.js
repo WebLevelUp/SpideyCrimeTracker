@@ -33,7 +33,13 @@ export function authController() {
                 'Accept': 'application/json',
             }
         });
-        const {login: username} = await userDetailsResponse.json();
+        const userDetails = await userDetailsResponse.json();
+        const {name: username} = userDetails;
+
+        if (!username) {
+            return res.status(400);
+        }
+
         const user = await getUserByUsername(username);
         let role;
 
