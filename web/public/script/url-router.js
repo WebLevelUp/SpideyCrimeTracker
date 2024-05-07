@@ -17,6 +17,10 @@ const routes = [
         scripts: ['recent.js'],
         styles: ['recent.css'],
         includeSidebar: true 
+    },
+    {
+      path: '/home',
+      filename: 'home.html'
     }
 ];
 
