@@ -1,32 +1,35 @@
-<div class="form-container">
-    <div id="includeHtml"></div>
+<!-- <div id="sidebar-container"></div> -->
+<main class="container">
+    <section class="form-container">
+        <header class="header-container">
+            <h1 class="header-text">With Great Power Comes Great Responsibility: Report a Crime!</h1>
+        </header>
+        <form id="myForm">
+            <section class="form-group province">
+                <label for="province">Select a Province</label>
+                <select name="province" id="province" class="dropdown">
+                    <option value="" selected disabled>Select a province</option>
+                </select>
+            </section>
 
-    <form id="myForm">
-        <div class="form-group province">
-            <label for="province">Select a Province</label>
-            <select name="province" id="province" class="dropdown">
-                <option value="" selected disabled>Select a province</option>
-            </select>
-        </div>
+            <section class="form-group area">
+                <label for="area">Select an Area</label>
+                <select name="area" id="area" class="dropdown">
+                    <option value="" selected disabled>Select an area</option>
+                </select>
+            </section>
 
-        <div class="form-group area">
-            <label for="area">Select an Area</label>
-            <select name="area" id="area" class="dropdown">
-                <option value="" selected disabled>Select an area</option>
-            </select>
-        </div>
-
-        <div class="form-group crimetype">
-            <label for="crime-type">Type of crime</label>
-            <input type="text" name="crime-type" id="crime-type" />
-        </div> 
-        <div class="form-group description">
-            <label for="description">Description</label>
-            <textarea type="text" name="description" id="description"></textarea>
-        </div>
-        <div class="form-group submit-btn">
-            <input type="submit" value="Submit">
-          </div>
-      
-    </form>
-</div>
+            <section class="form-group crimetype">
+                <label for="crime-type">Type of crime</label>
+                <input type="text" name="crime-type" id="crime-type" />
+            </section> 
+            <section class="form-group description">
+                <label for="description">Description</label>
+                <textarea type="text" name="description" id="description"></textarea>
+            </section>
+            <section class="form-group submit-btn">
+                <input type="submit" value="Submit">
+            </section>
+        </form>
+    </section>
+</main>
