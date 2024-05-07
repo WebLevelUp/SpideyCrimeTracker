@@ -7,6 +7,10 @@ const routes = [
     {
         path: '/recent',
         filename: 'recent.html',
+    },
+    {
+      path: '/home',
+      filename: 'home.html'
     }
 ];
 
