@@ -45,9 +45,8 @@ const handleFormData = (e) => {
 
     const crime = crimeInput.value.trim();
     const description = descriptionInput.value.trim();
-    const areaTest = areaDropdown.value;
-    const provTest = provinceDropdown.value;
-    console.log(provTest)
+    const area = areaDropdown.value;
+    const province = provinceDropdown.value;
 
 
     document.querySelectorAll(".form-group .error").forEach(field => field.classList.remove("error"));
@@ -59,10 +58,10 @@ const handleFormData = (e) => {
     if (description === "") {
         showError(descriptionInput, "Enter a description");
     }
-    if (areaTest === "") {
+    if (area === "") {
         showError(areaDropdown, "Select a area");
     }
-    if (provTest === "") {
+    if (province === "") {
         showError(provinceDropdown, "Select a province");
     }
 
