@@ -1,0 +1,150 @@
+@import url('../css/main.css');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.sct-content {
+    background-color: var(--blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    height: 50vh;
+    justify-content: space-evenly;
+}
+
+.sct-content > :is(h1, h2, p) {
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+.sct-title {
+    font-size: 6em;
+}
+
+.sct-subtitle {
+    font-size: 3.5em;
+}
+
+.sct-description {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.sct-about {
+    background-color: var(--red);
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 2rem;
+}
+
+.sct-about-text {
+    display: grid;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.github-login-button {
+    border: none;
+    border-radius: 2em;
+    display: flex;
+    padding: 0.75em;
+    margin: 0.75rem 0;
+    gap: 0.5em;
+    font-size: 1.25em;
+    align-items: center;
+    color: var(--red);
+}
+
+.github-logo {
+    color: black;
+    height: 2em;
+    width: 2em;
+}
+
+.spiderman-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spiderman-image {
+    width: 50vw;
+}
+
+@media (max-width: 1200px) or (max-height: 800px) {
+    .sct-content {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 900px) or (max-height: 600px) {
+    .sct-content {
+        font-size: 1rem;
+    }
+
+    .sct-about-text {
+        font-size: 2em;
+    }
+
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .spiderman-container {
+        display: none;
+    }
+
+    .sct-content {
+        height: 100vh;
+    }
+
+    .sct-about {
+        height: 100vh;
+    }
+}
+
+@media (max-width: 600px) or (max-height: 400px) {
+    .sct-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .sct-about {
+        padding: 1.5rem 1rem;
+    }
+
+    .sct-title {
+        font-size: 4em;
+    }
+
+    .sct-subtitle {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 400px) or (max-height: 400px) {
+    .sct-content {
+        font-size: 0.75rem;
+    }
+
+    .sct-about-text {
+        font-size: 1.5em;
+    }
+}
