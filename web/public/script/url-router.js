@@ -9,14 +9,14 @@ const routes = [
         filename: 'report.html',
         scripts: ['report.js', 'sidebar.js'],
         styles: ['report.css', 'sidebar.css'],
-        // includeSidebar: true 
+        includeSidebar: true 
     },
     {
         path: '/recent',
         filename: 'recent.html',
         scripts: ['recent.js'],
         styles: ['recent.css'],
-        // includeSidebar: true 
+        includeSidebar: true 
     }
 ];
 

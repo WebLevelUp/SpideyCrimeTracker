@@ -15,7 +15,7 @@ function toggleSidebar() {
 // sidebar.appendChild(toggleButton);
 
 // toggleButton.addEventListener('click', () => {
-//     sidebar.classList.toggle('active'); // Add/remove 'active' class
+//     sidebar.classList.toggle('active'); //
 // });
 
 // const sidebarItems = [
