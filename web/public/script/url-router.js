@@ -110,7 +110,6 @@ function loadScripts(scripts) {
 function clearStyles() {
     loadedStyles.forEach(stylePath => {
         const existingStyleElement = document.querySelector(`link[href="./css/${stylePath}"]`);
-        console.log("here ", existingStyleElement)
         if (existingStyleElement) {
             document.head.removeChild(existingStyleElement);
         }
