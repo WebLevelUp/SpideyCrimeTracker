@@ -25,7 +25,10 @@ provinces.forEach(province => {
   provinceSelect.appendChild(option);
 });
 
-//Validation
+const dateInput = document.getElementById('date');
+const today = new Date().toISOString().split('T')[0];
+dateInput.setAttribute('max', today);
+
 const form = document.getElementById("myForm");
 
 const showError = (field, errorText) => {
@@ -41,11 +44,13 @@ const handleFormData = (e) => {
 
     const areaDropdown = document.getElementById("area");
     const provinceDropdown = document.getElementById("province");
+    const dateInput = document.getElementById("date");
     const crimeInput = document.getElementById("crime-type");
     const descriptionInput = document.getElementById("description");
 
     const crime = crimeInput.value.trim();
     const description = descriptionInput.value.trim();
+    const date = dateInput.value;
     const area = areaDropdown.value;
     const province = provinceDropdown.value;
 
@@ -59,6 +64,9 @@ const handleFormData = (e) => {
     if (description === "") {
         showError(descriptionInput, "Enter a description");
     }
+    if (date === "") {
+      showError(dateInput, "Select a date");
+  }
     if (area === "") {
         showError(areaDropdown, "Select a area");
     }
