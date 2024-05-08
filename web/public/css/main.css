@@ -3,3 +3,8 @@
     --blue: #275086;
     --font-size: 16px;
 }
+
+body, html {
+    margin: 0;
+    padding: 0;
+}

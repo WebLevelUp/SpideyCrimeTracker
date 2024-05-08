@@ -6,6 +6,7 @@ const provinces = [
   "Gauteng", "KwaZulu-Natal", "Free State", "Western Cape"
 ];
 
+let formDataArray = [];
 
 const areaSelect = document.getElementById("area");
 const provinceSelect = document.getElementById("province");
@@ -68,7 +69,31 @@ const handleFormData = (e) => {
     const errorInputs = document.querySelectorAll(".form-group .error");
     if (errorInputs.length > 0) return;
 
-    form.submit();
-}
+    const formData = {
+      crime: crime,
+      description: description,
+      area: area,
+      province: province
+  };
 
-form.addEventListener("submit", handleFormData);
+  formDataArray.push(formData);
+  form.reset();
+  }
+  
+  form.addEventListener("submit", handleFormData);
+
+
+// async function loadSidebar() {
+//   const response = await fetch('./html/recent.html');
+//   const text = await response.text();
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(text, 'text/html');
+
+//   // Assuming the sidebar HTML is directly under <body>
+//   const sidebarElement = doc.body.firstChild;
+
+//   const sidebarContainer = document.getElementById('sidebar-container');
+//   sidebarContainer.appendChild(sidebarElement);
+// }
+
+// loadSidebar()
