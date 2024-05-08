@@ -1,4 +1,3 @@
-<div class="wrapper">
 <nav class="sidebar">
     <section class="top">
         <header class="logo">
@@ -12,7 +11,7 @@
         </section>
     </section>
     <main>
-        <ul>
+        <ul id="sidebar-list">
             <li>
                 <a onclick="router('/report')">
                     <img class="user-icon" src="../images/spyware.jpg">
@@ -45,15 +44,7 @@
             </li>
 
             <li>
-                <a href="#">
-                    <img class="user-icon" src="../images/administrator.png">
-                    <span class="nav-item">Admin</span>
-                </a>
-                <span class="tooltip">Admin</span>
-            </li>
-
-            <li>
-                <a href="#">
+                <a id="logout-btn">
                     <img class="user-icon" src="../images/logout.jpg">
                     <span class="nav-item">Logout</span>
                 </a>
@@ -62,4 +53,3 @@
         </ul>
     </main>
 </nav>
-</div>

@@ -6,6 +6,26 @@ function toggleSidebar() {
     btn.classList.toggle('change');
 }
 
+const logoutButton = document.getElementById('logout-btn');
+logoutButton.addEventListener('click', () => {
+    localStorage.clear();
+    window.router('/');
+});
+
+const adminBtn = '<a onclick="router(\'/admin\')">\
+    <img class="user-icon" src="../images/administrator.png">\
+    <span class="nav-item">Admin</span>\
+</a>\
+<span class="tooltip">Admin</span>';
+
+const sidebarList = document.getElementById('sidebar-list');
+
+if (localStorage.getItem('role') === 'admin') {
+    const listElement = document.createElement('li');
+    listElement.innerHTML = adminBtn;
+    sidebarList.append(listElement);
+}
+
 // const sidebar = document.querySelector('.sidebar');
 // const toggleButton = document.createElement('button');
 
