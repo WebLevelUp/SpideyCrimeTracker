@@ -34,7 +34,7 @@ export function authController() {
             }
         });
         const userDetails = await userDetailsResponse.json();
-        const {name: username} = userDetails;
+        const {login: username} = userDetails;
 
         if (!username) {
             return res.status(400);
