@@ -6,6 +6,18 @@ function toggleSidebar() {
     btn.classList.toggle('change');
 }
 
+// const sidebar = document.querySelector('.sidebar');
+// const toggleButton = document.createElement('button');
+
+// toggleButton.textContent = 'Toggle Sidebar';
+// toggleButton.classList.add('toggle-button');
+
+// sidebar.appendChild(toggleButton);
+
+// toggleButton.addEventListener('click', () => {
+//     sidebar.classList.toggle('active'); //
+// });
+
 // const sidebarItems = [
 //     { icon: '../images/spyware.jpg', text: 'Report a crime', tooltip: 'Report a crime', link: '#' },
 //     { icon: '../images/web.jpg', text: 'View Statistics', tooltip: 'View Statistics', link: '#' },

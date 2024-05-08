@@ -8,6 +8,7 @@ import {hotspotController} from './controllers/hotspotController.js';
 import {roleController} from './controllers/roleController.js';
 import {userController} from './controllers/userController.js';
 import {hotspotTypeController} from './controllers/hotspotTypeController.js';
+import {incidentController} from "./controllers/incidentController.js";
 import {authorizationMiddleware} from './middleware/authorizationMiddleware.js';
 import {corsMiddleware} from './middleware/corsMiddleware.js';
 
@@ -30,6 +31,7 @@ app.use(errorHandler);
 areaController();
 hotspotController();
 hotspotTypeController();
+incidentController();
 authController();
 roleController();
 userController();

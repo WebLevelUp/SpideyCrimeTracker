@@ -12,7 +12,8 @@ export function hotspotController() {
             } else {
                 options.areaID = areaID;
             }
-        } else if (queryParams.hotspotID) {
+        }
+        if (queryParams.hotspotID) {
             const hotspotID = parseInt(queryParams.hotspotID, 10);
             if (isNaN(hotspotID)) {
                 return res.status(400).send('Invalid hotspotID');
