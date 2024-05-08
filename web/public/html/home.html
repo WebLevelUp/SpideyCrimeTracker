@@ -1,12 +1,26 @@
-<main class="home-grid">
-    <figure class="spiderman-container">
-        <img class="spiderman-image" src="../images/spiderman-home.png" alt="SpiderMan">
-    </figure>
-    <article class="home-content">
-        <section class="sct-content">
-            <h1 class="sct-title">Spiderman</h1>
-            <h2 class="sct-subtitle">Hotspot Tracker</h2>
-            <p class="sct-description">Keeping the streets of South Africa safe, one web swing at a time.</p>
+<main>
+    <section class="home-container">
+        <header class="home-header">
+            <button class="about-button" onclick="toggleAbout()">
+                <img alt="About-Logo.png" class="about-image" src="../images/About-Logo.png"/>
+            </button>
+        </header>
+        <figure class="spiderman-image-container">
+            <img alt="Spider-Man.png" class="spiderman-image" src="../images/Spider-Man.png"/>
+        </figure>
+        <section class="home-background">
+        </section>
+        <figure class="blue-overlay-image-container">
+            <img
+                    alt="Spider-Man-Swinging-With-Villain.png"
+                    class="spiderman-image-overlay"
+                    src="../images/Spider-Man-Swinging-With-Villain.png"
+            />
+        </figure>
+        <article class="home-content">
+            <h1 class="home-title">Spiderman</h1>
+            <h2 class="home-subtitle">Hotspot Tracker</h2>
+            <p class="home-description">Keeping the streets of South Africa safe, one web swing at a time.</p>
             <button class="github-login-button" id="login-button">
                 Login with GitHub
                 <svg class="github-logo" viewBox="0 0 16 16">
@@ -16,13 +30,26 @@
                     />
                 </svg>
             </button>
-        </section>
-        <section class="sct-about">
-            <p class="sct-about-text">
-                Welcome to the Spiderman Hotspot Tracker! This interactive website allows you to stay informed about
+        </article>
+        <footer class="home-footer">
+            <p>'With great power comes great responsibility'</p>
+        </footer>
+        <section class="about">
+            <section class="close-about-button-container">
+                <button class="close-about-button" onclick="toggleAbout()">
+                    <img class="close-icon" alt="Close-Icon.png" src="../images/Close-Icon.png">
+                </button>
+            </section>
+            <h1 class="about-title">About</h1>
+            <p class="about-text">
+                Welcome to the Spiderman Hotspot Tracker! This interactive website allows you to stay
+                informed about
                 crime activity in south africa and follow Spiderman's heroic efforts to fight crime. Use our map to
                 explore reported crimes, track crime hotspots, and contribute to making our city safer.
             </p>
+            <figure class="spider-man-logo-container">
+                <img alt="Spider-Man-Logo.png" class="spider-man-logo" src="../images/Spider-Man-Logo.png">
+            </figure>
         </section>
-    </article>
+    </section>
 </main>
