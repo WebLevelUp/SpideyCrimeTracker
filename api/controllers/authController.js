@@ -34,6 +34,11 @@ export function authController() {
             }
         });
         const {login: username} = await userDetailsResponse.json();
+
+        if (!username) {
+            return res.status(400);
+        }
+
         const user = await getUserByUsername(username);
         let role;
 

@@ -1,8 +1,15 @@
+import {postAuth} from './login.js';
+
 const routes = [
     {
         path: '/',
-        filename: 'sidebar.html',
-        scripts: ['sidebar.js']
+        filename: 'home.html',
+        scripts: ['home.js'],
+        styles: ['home.css']
+    },
+    {
+        path: '/error',
+        filename: 'error.html',
     },
     {
         path: '/report',
@@ -19,17 +26,41 @@ const routes = [
         includeSidebar: true 
     },
     {
-      path: '/home',
-      filename: 'home.html'
+        path: '/admin',
+        filename: 'admin.html',
+        includeSidebar: true,
+        scripts: ['sidebar.js'],
+        styles: ['sidebar.css'],
+        adminOnly: true
     }
 ];
 
+const loggedInPath = '/report';
 const content = document.getElementById('content');
 const loadedScripts = [];
 const loadedStyles = []
 
-function router(path, saveHistory = true) {
-    const route = routes.find(route => route.path === path);
+export function router(path, saveHistory = true) {
+    if (path === '/auth') {
+        postAuth().then(() => router(loggedInPath));
+        return;
+    }
+
+    if (path !== '/' && !localStorage.getItem('access_token')) {
+        console.log('no access token');
+        path = '/';
+    }
+
+    if (path === '/' && localStorage.getItem('access_token')) {
+        path = loggedInPath;
+    }
+
+    let route = routes.find(route => route.path === path) ?? routes.find(route => route.path === '/error');
+
+    if (route.adminOnly && localStorage.getItem('role') !== 'admin') {
+        route = routes.find(route => route.path === '/error');
+    }
+
     loadPage(route.filename).then(page => {
         const urlPath = `${path}`;
         content.innerHTML = page;
@@ -38,12 +69,12 @@ function router(path, saveHistory = true) {
         }
     }).then(() => {
         if (route.includeSidebar) {
-            loadSidebar();
+            loadSidebar()
+                .then(() => loadScripts(route.scripts));
+        } else if (route.scripts) {
             loadScripts(route.scripts);
         }
-        if (route.scripts) {
-            loadScripts(route.scripts);
-        }
+
         if (route.styles) {
             loadStyles(route.styles);
         }
@@ -108,5 +139,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 async function loadSidebar() {
     const sidebar = await loadPage('sidebar.html');
-    content.innerHTML += sidebar;
+    content.innerHTML = sidebar + content.innerHTML;
 }
+
+window.router = router;
