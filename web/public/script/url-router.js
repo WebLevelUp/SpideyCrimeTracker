@@ -38,7 +38,7 @@ const routes = [
 const loggedInPath = '/report';
 const content = document.getElementById('content');
 const loadedScripts = [];
-const loadedStyles = []
+let loadedStyles = []
 
 export function router(path, saveHistory = true) {
     if (path === '/auth') {
@@ -107,7 +107,19 @@ function loadScripts(scripts) {
         });
 }
 
+function clearStyles() {
+    loadedStyles.forEach(stylePath => {
+        const existingStyleElement = document.querySelector(`link[href="./css/${stylePath}"]`);
+        console.log("here ", existingStyleElement)
+        if (existingStyleElement) {
+            document.head.removeChild(existingStyleElement);
+        }
+    });
+    loadedStyles = []; 
+}
+
 function loadStyles(styles) {
+    clearStyles()
     styles
         .filter((path) => !loadedStyles.includes(path))
         .map((path) => {

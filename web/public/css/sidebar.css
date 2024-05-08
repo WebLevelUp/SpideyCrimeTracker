@@ -5,10 +5,7 @@
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-html, body {
-  /* height: 100%; */
-  margin: 0;
-}
+
 .sidebar {
   border-top-right-radius: 0.5rem;
   position: fixed;
