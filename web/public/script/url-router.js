@@ -21,8 +21,8 @@ const routes = [
     {
         path: '/recent',
         filename: 'recent.html',
-        scripts: ['recent.js'],
-        styles: ['recent.css'],
+        scripts: ['recent.js', 'sidebar.js'],
+        styles: ['recent.css', 'sidebar.css'],
         includeSidebar: true 
     },
     {
