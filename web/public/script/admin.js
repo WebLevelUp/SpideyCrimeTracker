@@ -59,7 +59,7 @@ function showSection(sectionId) {
 
         clearErrors();
 
-        if (area === "") showError(areaInput, "Add an area");
+        if (area === "") showError(areaInput, "Add a suburb");
         if (province === "") showError(provinceDropdown, "Select a province");
 
         if (document.querySelectorAll(".error").length > 0) return;
