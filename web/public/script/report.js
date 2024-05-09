@@ -36,7 +36,7 @@ function load() {
 
     const showError = (field, errorText) => {
         field.classList.add('error');
-        const errorElement = document.createElement('small');
+        const errorElement = document.createElement('medium');
         errorElement.classList.add('error-text');
         errorElement.innerText = errorText;
         field.closest('.form-group').appendChild(errorElement);
@@ -62,19 +62,19 @@ function load() {
         document.querySelectorAll('.error-text').forEach(errorText => errorText.remove());
 
         if (crime === '') {
-            showError(crimeDropdown, 'Select your type of crime');
+            showError(crimeDropdown, 'Select a type of crime');
         }
         if (description === '') {
-            showError(descriptionInput, 'Enter a description');
+            showError(descriptionInput, 'Enter a Description');
         }
         if (date === '') {
-            showError(dateInput, 'Select a date');
+            showError(dateInput, 'Select a Date');
         }
         if (!area) {
-            showError(areaDropdown, 'Select a area');
+            showError(areaDropdown, 'Select a Suburb');
         }
         if (province === '') {
-            showError(provinceDropdown, 'Select a province');
+            showError(provinceDropdown, 'Select a Province');
         }
 
         const errorInputs = document.querySelectorAll('.form-group .error');
@@ -86,9 +86,9 @@ function load() {
             areaId: area,
             date: date
         };
-
-        console.log(formData);
+        
         form.reset();
+        
         createIncident(formData).then(() => {
             alert('successfully created');
         });

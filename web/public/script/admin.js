@@ -50,8 +50,8 @@ function load() {
 
         clearErrors();
 
-        if (area === '') showError(areaInput, 'Select a suburb');
-        if (province === '') showError(provinceDropdown, 'Select a province');
+        if (area === "") showError(areaInput, "Please add a suburb");
+        if (province === "") showError(provinceDropdown, "Please select a province");
 
         if (document.querySelectorAll('.error').length > 0) return;
 
@@ -72,7 +72,9 @@ function load() {
 
         clearErrors();
 
-        if (crime === '') showError(crimeInput, 'Enter your type of crime');
+        if (crime === "") showError(crimeInput, "Please enter your type of crime");
+
+        if (document.querySelectorAll(".error").length > 0) return;
 
         if (document.querySelectorAll('.error').length > 0) return;
         const formData = {hotspotType: crime};
@@ -120,8 +122,8 @@ function load() {
 
         clearErrors();
 
-        if (userId === '') showError(userNameDropdown, 'Select a user');
-        if (roleId === '') showError(userTypeDropdown, 'Select a role');
+        if (userId === "") showError(userNameDropdown, "Please select a user");
+        if (roleId === "") showError(userTypeDropdown, "Please Select a role");
 
         if (document.querySelectorAll('.error').length > 0) return;
 
@@ -144,9 +146,9 @@ function load() {
     }
 
     function showError(element, message) {
-        element.classList.add('error');
-        const errorText = document.createElement('small');
-        errorText.className = 'error-text';
+        element.classList.add("error");
+        const errorText = document.createElement("medium");
+        errorText.className = "error-text";
         errorText.textContent = message;
         element.closest('.form-group').appendChild(errorText);
     }

@@ -1,8 +1,12 @@
 @import url('../css/main.css');
+@import url('https://fonts.googleapis.com/css2?family=Freeman&display=swap');
 
-* {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+body {
+    background-image: url('../images/spiderman-swing-wallpaper.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
 
 html, body {
     height: 100%;
@@ -24,6 +28,10 @@ html, body {
     padding-left: 5rem;
 }
 
+.header-text{
+    font-family: 'Freeman', sans-serif;
+}
+
 .header-container {
     /*grid-column: 2; !* Position the header in the center column *!*/
     /*grid-row: 1; !* Position the header in the top row *!*/
@@ -32,6 +40,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 .graph-wrapper {
@@ -88,6 +97,7 @@ html, body {
 }
 
 .x-axis {
+    font-family: 'Freeman', sans-serif;
     display: flex;
     justify-content: space-evenly;
     width: 100%;
@@ -97,6 +107,7 @@ html, body {
 }
 
 .x-axisLabel {
+    font-family: 'Freeman', sans-serif;
     /*grid-column: 2;*/
     /*grid-row: 3;*/
     grid-area: x-label;
@@ -120,6 +131,7 @@ html, body {
 }
 
 .y-label {
+    font-family: 'Freeman', sans-serif;
     text-align: center;
     transform: rotate(-90deg);
 }
