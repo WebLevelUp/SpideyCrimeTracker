@@ -10,6 +10,10 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 app.get('*', (req, res) => {
+    if(req.path.split('/').length > 2){
+        res.redirect('/error');
+        return;
+    }
     res.sendFile(path.resolve(process.cwd(), 'public', 'index.html'));
 });
 
