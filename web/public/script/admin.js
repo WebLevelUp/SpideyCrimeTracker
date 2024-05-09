@@ -1,5 +1,7 @@
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+
     sections.forEach(section => {
         section.style.display = 'none';
     });
@@ -7,12 +9,9 @@ function showSection(sectionId) {
     const activeSection = document.getElementById(sectionId);
     if (activeSection) {
         activeSection.style.display = 'block';
+        welcomeMessage.style.display = 'none';
     }
 }
-
-window.onload = () => {
-    showSection('add');
-};
 
     const areaForm = document.getElementById("areaForm");
     const crimeForm = document.getElementById("crimeForm");

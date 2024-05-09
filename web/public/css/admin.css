@@ -1,51 +1,13 @@
 @import url('../css/main.css');
 
-/* a {
-    text-decoration: none;
-    color: white;
-    font-size: 1.2rem;
-}
-
-#navbar {
-    background-color: var(--red);
-    display: flex;
-    justify-content: center;
-}
-
-#navbar ul {
-    display: flex;
-    margin-left: 1.5rem;
-    justify-content: center;
-    align-items: center;
-}
-
-#navbar ul li {
-    display: block;
-    padding: 0.75rem 1rem;
-}
-
-#navbar ul li:hover{
-    background: gray
-}
-
-#addContent, #changeCrimeContent, #changeRoleContent {
-    display: none;
-} */
-
-/* styles.css */
-/* #navbar button {
-    margin: 10px;
-    padding: 10px;
-} */
 
 .content-section {
-    display: none; /* Hide all sections initially */
+    display: none;
     padding: 20px;
     border: 1px solid #ccc;
     margin-top: 20px;
 }
 
-/* Active section style */
 .active {
     display: block;
 }
@@ -54,36 +16,30 @@
     color: red;
   }
   
-  /* form textarea.error, */
   form input.error,
   form select.error {
     border-color: #f91919;
     background: #f9f0f1;
   }
 
-
-  /* new */
-
   #navbar {
     display: flex;
-    justify-content: center;  
-    align-items: center;     }
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 0.25rem solid var(--red);
+}
 
-/* #navbar button{
-    border-color: var(--red);
-    border-radius: 2rem;
-    margin: 10px;
-    padding: 10px;
-} */
 
 #navbar .nav-link {
-    width: 15%;
+    width: 15.5rem;
     color: white;
     background-color: var(--red);
     border-color: var(--red);
-    border-radius: 2rem;
-    /* margin: 10px;
-    padding: 10px; */
+    border-radius: 1.25rem;
+    margin: 1rem 1.6rem 0.7rem 1.6rem;
+    padding: 0.6rem; 
+    font-size: calc(0.5vw + 0.6rem); 
 }
 
 #navbar .nav-link:hover {
