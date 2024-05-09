@@ -1,10 +1,42 @@
+@import url('../css/main.css');
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+.statistics-page-container {
+    display: grid; /* Using grid layout for the container */
+    grid-template-areas:
+        "title"
+        "graph";
+    /*grid-template-columns: 1fr 3fr 1fr; !* 3 columns: center column is wider *!*/
+    grid-template-rows: 1fr 6fr; /* 3 rows: center row is taller */
+    height: 100vh; /* Full viewport height */
+    padding-left: 5rem;
+}
+
+.header-container {
+    /*grid-column: 2; !* Position the header in the center column *!*/
+    /*grid-row: 1; !* Position the header in the top row *!*/
+    grid-area: title;
+    text-align: center; /* Center the text */
+}
+
 .graph-wrapper {
+    /*grid-column: 2;*/
+    /*grid-row: 2;*/
+    grid-area: graph;
     display: flex;
-    height: 100vh;
+    height: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 0.625em;
+
 }
 
 .graph-container {
@@ -14,6 +46,8 @@
     border: 0.0625em solid #ccc;
     padding: 0.625em;
     background: #f5f5f5;
+    min-width: 600px;
+    min-height: 500px;
 }
 
 .y-axis {
@@ -56,4 +90,31 @@
     padding-top: 0.625em;
     padding-left: 3.125em;
     text-align: center;
+}
+
+.x-axisLabel {
+    /*grid-column: 2;*/
+    /*grid-row: 3;*/
+    grid-area: graph;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.625em;
+}
+
+.y-axisLabel {
+    /*grid-column: 1;*/
+    /*grid-row: 2 / 3;*/
+    grid-area: graph;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    /*transform: rotate(-90deg);*/
+}
+
+.y-label {
+    transform: rotate(-90deg);
 }
