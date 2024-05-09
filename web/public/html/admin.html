@@ -1,13 +1,13 @@
 <main id="navbar">
-    <button class="nav-link" onclick="showSection('add')">Add an Area</button>
-    <button class="nav-link" onclick="showSection('about')">Add a Type of Crime</button>
-    <button class="nav-link" onclick="showSection('contact')">Edit User</button>
+    <button class="nav-link" onclick="showSection('add-area')">Add an Area</button>
+    <button class="nav-link" onclick="showSection('add-crime')">Add a Type of Crime</button>
+    <button class="nav-link" onclick="showSection('user-info')">Edit User</button>
 </main>
 
 <h1 id="welcomeMessage">Welcome to the Admin Spider Web</h1>
 
 <div id="content">
-    <section id="add" class="content-section">
+    <section id="add-area" class="content-section">
         <form id="areaForm">
             <section class="form-group area">
                 <input type="text" name="area" id="area" placeholder="Suburb"/>
@@ -23,7 +23,7 @@
         </form>
     </section>
 
-    <section id="about" class="content-section">
+    <section id="add-crime" class="content-section">
         <form id="crimeForm">
             <section class="form-group crime-type">
                 <input type="text" name="crime-type" id="crime-type" placeholder="Type of crime"/>
@@ -35,7 +35,7 @@
     </section>
 
     
-    <section id="contact" class="content-section">
+    <section id="user-info" class="content-section">
         <form id="userTypeForm">
 
             <section class="form-group user-name">
