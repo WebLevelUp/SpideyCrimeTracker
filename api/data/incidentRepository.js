@@ -44,3 +44,9 @@ export function createIncident(incidentDto) {
 
     return executeStatement(query, params);
 }
+
+export function getCrimeStatistics() {
+    let query = `SELECT a.province, COUNT(i.incidentId) AS totalIncidents FROM SpideyCrimeTrackerDB.dbo.Incident i INNER JOIN SpideyCrimeTrackerDB.dbo.Hotspot h ON i.hotspotId = h.hotspotId INNER JOIN SpideyCrimeTrackerDB.dbo.Area a ON h.areaId = a.areaId GROUP BY a.province`;
+
+    return executeStatement(query, []);
+}

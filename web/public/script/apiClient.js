@@ -1,4 +1,4 @@
-export const apiUrl = 'http://spidey-crime-tracker-environment.eba-whvjczmu.eu-west-1.elasticbeanstalk.com';
+export const apiUrl = 'http://localhost:3000';
 
 function getAccessToken() {
     return `Bearer ${localStorage.getItem('access_token')}`;
@@ -65,6 +65,18 @@ export async function createIncident(data) {
             'Authorization': getAccessToken()
         },
         body: JSON.stringify(data)
+    });
+
+    return response.json();
+}
+
+export async function getIncidentStatistics() {
+    const response = await fetch(`${apiUrl}/incidents/statistics`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
     });
 
     return response.json();

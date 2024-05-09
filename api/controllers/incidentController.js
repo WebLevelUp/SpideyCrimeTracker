@@ -1,5 +1,5 @@
 import {app} from '../index.js';
-import {createIncident, getAllIncidents} from '../data/incidentRepository.js';
+import {createIncident, getAllIncidents, getCrimeStatistics} from '../data/incidentRepository.js';
 import {IncidentCreateDto} from '../dtos/incidentCreateDto.js';
 import {getUserByUsername} from '../data/userRepository.js';
 import {getOrCreateHotspot} from '../data/hotspotRepository.js';
@@ -36,5 +36,10 @@ export function incidentController() {
         const incidentCreateDto = new IncidentCreateDto(date, description, user.userId, hotspot.hotspotId);
         await createIncident(incidentCreateDto);
         res.sendStatus(201);
+    });
+
+
+    app.get('/incidents/statistics', async (req, res) => {
+        res.send(await getCrimeStatistics());
     });
 }
