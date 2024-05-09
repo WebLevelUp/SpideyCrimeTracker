@@ -19,12 +19,19 @@ function load() {
 
         yAxis.innerHTML = '';
 
-        const increment = max / (numberLabel - 1);
-
-        for (let i = numberLabel - 1; i >= 0; i--) {
-            const label = document.createElement('section');
-            label.textContent = Math.round(i * increment);
-            yAxis.appendChild(label);
+        if (max <= 2) {
+            for (let i = 2; i >= 0; i--) {
+                const label = document.createElement('section');
+                label.textContent = `${i}`;
+                yAxis.appendChild(label);
+            }
+        } else {
+            const increment = max / (numberLabel - 1);
+            for (let i = numberLabel - 1; i >= 0; i--) {
+                const label = document.createElement('section');
+                label.textContent = Math.round(i * increment);
+                yAxis.appendChild(label);
+            }
         }
     }
 

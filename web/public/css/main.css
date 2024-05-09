@@ -9,4 +9,20 @@
 
 body {
     font-family: 'Freeman', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    height: 100%;
+}
+
+.success-message {
+    color: white;
+    text-align: center;
+    display: none;
+}
+
+.success-message.active {
+    display: block;
 }

@@ -160,7 +160,7 @@ async function loadSidebar() {
     const sidebar = await loadPage('sidebar.html');
     content.innerHTML =
         `${sidebar}
-        <section style="margin-left: 5em">
+        <section style="height: 100%; margin-left: 5em">
             ${content.innerHTML}
         </section>`;
 }

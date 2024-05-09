@@ -1,5 +1,15 @@
 import {createArea, createTypeOfCrime, getAllProvinces, getRoles, getUsers, updateUserRole} from './apiClient.js';
 
+function toggleSuccessMessage() {
+    let successMsg = document.querySelector('.success-message');
+    successMsg.classList.toggle('active');
+}
+
+function showSuccessMessage() {
+    toggleSuccessMessage();
+    setTimeout(() => toggleSuccessMessage(), 2000);
+}
+
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -62,6 +72,7 @@ function load() {
 
         areaForm.reset();
         await createArea(formData);
+        showSuccessMessage();
     });
 
     crimeForm.addEventListener('submit', async function (e) {
@@ -80,6 +91,7 @@ function load() {
         const formData = {hotspotType: crime};
         crimeForm.reset();
         await createTypeOfCrime(formData);
+        showSuccessMessage();
     });
 
     getUsers().then((users) => {
@@ -138,6 +150,7 @@ function load() {
 
         userNameSelect.disabled = false;
         userTypeSelect.disabled = false;
+        showSuccessMessage();
     });
 
     function clearErrors() {

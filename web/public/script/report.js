@@ -1,5 +1,15 @@
 import {createIncident, getAllCrimeTypes, getAllProvinces, getSuburbsForProvince} from './apiClient.js';
 
+function toggleSuccessMessage() {
+    let successMsg = document.querySelector('.success-message');
+    successMsg.classList.toggle('active');
+}
+
+function showSuccessMessage() {
+    toggleSuccessMessage();
+    setTimeout(() => toggleSuccessMessage(), 2000);
+}
+
 function load() {
     const areaSelect = document.getElementById('area');
     const provinceSelect = document.getElementById('province');
@@ -86,11 +96,11 @@ function load() {
             areaId: area,
             date: date
         };
-        
+
         form.reset();
-        
+
         createIncident(formData).then(() => {
-            alert('successfully created');
+            showSuccessMessage();
         });
     }
 
@@ -99,6 +109,7 @@ function load() {
     provinceSelect.addEventListener('change', () => {
         areaSelect.disabled = true;
         getSuburbsForProvince(provinceSelect.value).then((areas) => {
+            areaSelect.innerHTML = '';
             areas.map(area => {
                 const option = document.createElement('option');
                 option.value = area.areaId;
