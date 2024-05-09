@@ -28,9 +28,9 @@ const routes = [
     {
         path: '/admin',
         filename: 'admin.html',
-        includeSidebar: true,
-        scripts: ['sidebar.js'],
-        styles: ['sidebar.css'],
+        // includeSidebar: true,
+        scripts: ['admin.js'],
+        styles: ['admin.css'],
         adminOnly: true
     }
 ];
