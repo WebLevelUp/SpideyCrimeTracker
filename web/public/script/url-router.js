@@ -10,6 +10,7 @@ const routes = [
     {
         path: '/error',
         filename: 'error.html',
+        styles: ['error.css']
     },
     {
         path: '/report',
