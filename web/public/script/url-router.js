@@ -152,7 +152,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
 async function loadSidebar() {
     const sidebar = await loadPage('sidebar.html');
-    content.innerHTML = sidebar + content.innerHTML;
+    content.innerHTML =
+      `${sidebar}
+        <section style="margin-left: 5em">
+            ${content.innerHTML}
+        </section>`;
 }
 
 function clearScripts() {
