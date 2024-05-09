@@ -61,7 +61,6 @@ function load(){
     const graphData = [];
 
     getIncidentStatistics().then((stats) => {
-        console.log(stats);
         stats.map(stat => {
             const label = stat.province;
             const value = stat.totalIncidents;
