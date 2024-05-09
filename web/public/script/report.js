@@ -86,8 +86,7 @@ function load() {
             areaId: area,
             date: date
         };
-
-        console.log(formData);
+        
         form.reset();
         
         createIncident(formData).then(() => {

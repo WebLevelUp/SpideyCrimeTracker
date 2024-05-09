@@ -122,8 +122,8 @@ function load() {
 
         clearErrors();
 
-        if (userName === "") showError(userNameDropdown, "Please select a user");
-        if (userType === "") showError(userTypeDropdown, "Please Select a role");
+        if (userId === "") showError(userNameDropdown, "Please select a user");
+        if (roleId === "") showError(userTypeDropdown, "Please Select a role");
 
         if (document.querySelectorAll('.error').length > 0) return;
 

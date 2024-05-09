@@ -42,7 +42,7 @@ p{
 
 .error-text {
     font-family: 'Freeman', sans-serif;
-    color: var(--red);
+    color: white;
   }
   
   form input.error,

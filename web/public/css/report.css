@@ -7,6 +7,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -107,7 +108,8 @@ label {
 }
 
 .error-text {
-  color: var(--blue);
+  color: white;
+  font-family: 'Freeman', sans-serif;
 }
 
 form textarea.error,
