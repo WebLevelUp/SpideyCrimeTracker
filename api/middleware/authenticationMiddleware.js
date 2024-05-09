@@ -8,7 +8,8 @@ import jwt from 'jsonwebtoken';
  */
 export function authenticationMiddleware(req, res, next) {
     const path = req.path;
-    if (req.path === '/auth/login' || req.method === 'OPTIONS') {
+    if (req.path === '/auth/login') {
+        console.debug('Skipping auth for login endpoint');
         return next();
     }
 
@@ -27,7 +28,6 @@ export function authenticationMiddleware(req, res, next) {
     try {
         const decoded = jwt.verify(token, jwtSecret, {issuer: 'spidey-crime-tracker'});
         req.headers.role = decoded.role;
-        req.headers.username = decoded.username;
     } catch (err) {
         return res.status(401).send({'Error': 'Token invalid. Please login again'});
     }

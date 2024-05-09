@@ -1,6 +1,5 @@
 import {executeStatement} from './dbConnection.js';
 import {TYPES} from 'tedious';
-import {HotspotCreateDto} from '../dtos/hotspotCreateDto.js';
 
 const tableName = 'SpideyCrimeTrackerDB.dbo.Hotspot';
 
@@ -13,23 +12,22 @@ const tableName = 'SpideyCrimeTrackerDB.dbo.Hotspot';
  * @return {Promise<Hotspot[]>} - Array of hotspot objects
  */
 export function getAllHotspots(options = {}) {
-    let query = `SELECT *
-                 FROM ${tableName}`;
+    let query = `SELECT * FROM ${tableName}`;
     const params = [];
 
     if (options.areaID !== undefined) {
-        query += ' WHERE areaId = @areaId';
-        params.push({name: 'areaId', type: TYPES.Int, value: options.areaId});
+        query += ' WHERE areaID = @areaID';
+        params.push({name: 'areaID', type: TYPES.Int, value: options.areaID});
     }
 
-    if (options.hotspotTypeId !== undefined) {
+    if (options.hotspotTypeID !== undefined) {
         // If there's already a WHERE clause, append with AND
         if (params.length > 0) {
-            query += ' AND hotspotTypeId = @hotspotTypeId';
+            query += ' AND hotspotTypeID = @hotspotTypeID';
         } else {
-            query += ' WHERE hotspotTypeId = @hotspotTypeId';
+            query += ' WHERE hotspotTypeID = @hotspotTypeID';
         }
-        params.push({name: 'hotspotTypeId', type: TYPES.Int, value: options.hotspotTypeId});
+        params.push({name: 'hotspotTypeID', type: TYPES.Int, value: options.hotspotTypeID});
     }
 
     return executeStatement(query, params);
@@ -42,22 +40,13 @@ export function getAllHotspots(options = {}) {
  * @return {Promise<Hotspot[]>} - Array of hotspot objects
  */
 export function createHotspot(hotspotDto) {
-    const query = `INSERT INTO ${tableName} (areaId, hotspotTypeId)
-                   VALUES (@areaId, @hotspotTypeId);`;
+    const query = `INSERT INTO ${tableName} (description, areaID, hotspotTypeID)
+                   VALUES (@description, @areaID, @hotspotTypeID);`;
     const params = [
-        {name: 'areaId', type: TYPES.Int, value: hotspotDto.areaId},
-        {name: 'hotspotTypeId', type: TYPES.Int, value: hotspotDto.hotspotTypeId},
+        {name: 'description', type: TYPES.VarChar, value: hotspotDto.description},
+        {name: 'areaID', type: TYPES.Int, value: hotspotDto.areaID},
+        {name: 'hotspotTypeID', type: TYPES.Int, value: hotspotDto.hotspotTypeID},
     ];
 
     return executeStatement(query, params);
-}
-
-export async function getOrCreateHotspot(areaId, hotspotTypeId) {
-    let hotspots = await getAllHotspots({areaId, hotspotTypeId});
-    if (hotspots.length === 0) {
-        await createHotspot({areaId, hotspotTypeId});
-        hotspots = await getAllHotspots({areaId, hotspotTypeId});
-    }
-
-    return hotspots[0];
 }

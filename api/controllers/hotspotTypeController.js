@@ -3,8 +3,7 @@ import {createHotspotType, getAllHotspotTypes} from '../data/hotspotTypeReposito
 
 export function hotspotTypeController() {
     app.get('/hotspotType', async (req, res) => {
-        const hotspotTypes = await getAllHotspotTypes();
-        res.send(hotspotTypes);
+        res.send(await getAllHotspotTypes());
     });
 
     app.post('/hotspotType', async (req, res) => {

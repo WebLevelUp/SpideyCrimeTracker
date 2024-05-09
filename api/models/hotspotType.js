@@ -1,9 +1,9 @@
 export class HotspotType {
-    hotspotTypeId;
+    hotspotTypeID;
     hotspotType;
 
-    constructor(hotspotTypeId, hotspotType) {
-        this.hotspotTypeId = hotspotTypeId;
+    constructor(hotspotTypeID, hotspotType) {
+        this.hotspotTypeID = hotspotTypeID;
         this.hotspotType = hotspotType;
     }
 }

@@ -6,7 +6,8 @@
  */
 export function authorizationMiddleware(adminRoutes) {
     return (req, res, next) => {
-        if (req.path === '/auth/login' || req.method === 'OPTIONS') {
+        if (req.path === '/auth/login') {
+            console.debug('Skipping auth for login endpoint');
             return next();
         }
 
@@ -14,8 +15,8 @@ export function authorizationMiddleware(adminRoutes) {
         const method = req.method;
         const route = req.path;
         const protectedMethods = adminRoutes[route];
-
-        if (protectedMethods && protectedMethods.includes(method) && role !== 'admin') {
+        
+        if (protectedMethods.includes(method) && role !== 'admin') {
             res.send(403);
         }
 

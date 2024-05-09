@@ -16,7 +16,6 @@ header {
     align-items: center;
     width: 100%;
     padding: 1rem 1rem 0 1rem;
-    flex-wrap: wrap;
    }
 
 .filter-row {
@@ -24,7 +23,6 @@ header {
     justify-content: center;
     width: 100%;
     margin-bottom: 1rem;
-    flex-wrap: wrap;
 }
 
 input[type="text"], input[type="date"] {
@@ -32,10 +30,10 @@ input[type="text"], input[type="date"] {
     margin: 0.3rem;
     flex-grow: 1;
     min-width: 10rem;
-    max-width: 20rem;
+    max-width: 20rem; 
     border: 0.1rem solid var(--blue);
     border-radius: 0.5rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; 
 }
 
 input[type="text"]:hover, input[type="date"]:hover {
@@ -69,7 +67,7 @@ input[type="text"]:hover, input[type="date"]:hover {
 
 .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 0.5rem 0.75rem rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0.5rem 0.75rem rgba(0, 0, 0, 0.4); 
 }
 
 .card h2, .card h3, .card p {

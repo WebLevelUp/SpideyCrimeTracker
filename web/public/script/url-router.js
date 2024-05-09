@@ -16,14 +16,14 @@ const routes = [
         filename: 'report.html',
         scripts: ['report.js', 'sidebar.js'],
         styles: ['report.css', 'sidebar.css'],
-        includeSidebar: true
+        includeSidebar: true 
     },
     {
         path: '/recent',
         filename: 'recent.html',
         scripts: ['recent.js', 'sidebar.js'],
         styles: ['recent.css', 'sidebar.css'],
-        includeSidebar: true
+        includeSidebar: true 
     },
     {
         path: '/admin',
@@ -32,21 +32,13 @@ const routes = [
         scripts: ['admin.js'],
         styles: ['admin.css'],
         adminOnly: true
-    },
-    {
-        path: '/statistics',
-        filename: 'statistics.html',
-        includeSidebar: true,
-        scripts: ['statistics.js', 'sidebar.js'],
-        styles: ['statistics.css', 'sidebar.css'],
-        // adminOnly: true
     }
 ];
 
 const loggedInPath = '/report';
 const content = document.getElementById('content');
-let loadedScripts = [];
-let loadedStyles = [];
+const loadedScripts = [];
+let loadedStyles = []
 
 export function router(path, saveHistory = true) {
     if (path === '/auth') {
@@ -95,26 +87,24 @@ async function loadPage(filename) {
 }
 
 function loadScripts(scripts) {
-    clearScripts();
-    scripts.map((path) => {
-        const scriptElement = document.createElement('script');
-        loadedScripts.push(path);
-        scriptElement.setAttribute('src', `./script/${path}`);
-        scriptElement.setAttribute('type', 'module');
-        document.body.appendChild(scriptElement);
+    scripts
+        .filter((path) => !loadedScripts.includes(path))
+        .map((path) => {
+            const scriptElement = document.createElement('script');
+            loadedScripts.push(path);
+            scriptElement.setAttribute('src', `./script/${path}`);
+            scriptElement.setAttribute('type', 'text/javascript');
 
-        scriptElement.addEventListener('load', () => {
-            const loadEvent = new Event(path);
-            document.dispatchEvent(loadEvent);
-            console.log('File loaded');
+            document.body.appendChild(scriptElement);
+
+            scriptElement.addEventListener('load', () => {
+                console.log('File loaded');
+            });
+
+            scriptElement.addEventListener('error', (err) => {
+                console.log('Error on loading file: ', err);
+            });
         });
-
-        scriptElement.addEventListener('error', (err) => {
-            console.log('Error on loading file: ', err);
-        });
-    });
-
-    ;
 }
 
 function clearStyles() {
@@ -124,11 +114,11 @@ function clearStyles() {
             document.head.removeChild(existingStyleElement);
         }
     });
-    loadedStyles = [];
+    loadedStyles = []; 
 }
 
 function loadStyles(styles) {
-    clearStyles();
+    clearStyles()
     styles
         .filter((path) => !loadedStyles.includes(path))
         .map((path) => {
@@ -160,21 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 async function loadSidebar() {
     const sidebar = await loadPage('sidebar.html');
-    content.innerHTML =
-      `${sidebar}
-        <section style="margin-left: 5em">
-            ${content.innerHTML}
-        </section>`;
-}
-
-function clearScripts() {
-    loadedScripts.map(scriptPath => {
-        const existingScriptElement = document.querySelector(`script[src="./script/${scriptPath}"]`);
-        if (existingScriptElement) {
-            document.body.removeChild(existingScriptElement);
-        }
-    });
-    loadedScripts = [];
+    content.innerHTML = sidebar + content.innerHTML;
 }
 
 window.router = router;

@@ -1,15 +1,15 @@
 export class Incident {
-    incidentId;
+    incidentID;
     date;
     description;
-    userId;
-    hotspotId;
+    userID;
+    hotspotID;
 
-    constructor(incidentId, date, description, userId, hotspotId) {
-        this.incidentId = incidentId;
+    constructor(incidentID, date, description, userID, hotspotID) {
+        this.incidentID = incidentID;
         this.date = date;
         this.description = description;
-        this.userId = userId;
-        this.hotspotId = hotspotId;
+        this.userID = userID;
+        this.hotspotID = hotspotID;
     }
 }
