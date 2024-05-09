@@ -40,11 +40,10 @@ const routes = [
         includeSidebar: true,
         scripts: ['statistics.js', 'sidebar.js'],
         styles: ['statistics.css', 'sidebar.css'],
-        // adminOnly: true
     }
 ];
 
-const loggedInPath = '/report';
+const loggedInPath = '/recent';
 const content = document.getElementById('content');
 let loadedScripts = [];
 let loadedStyles = [];
@@ -114,8 +113,6 @@ function loadScripts(scripts) {
             console.log('Error on loading file: ', err);
         });
     });
-
-    ;
 }
 
 function clearStyles() {
