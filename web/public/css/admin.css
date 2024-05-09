@@ -16,8 +16,8 @@ body {
 }
 
 #welcomeMessage{
-    display: flex;
-    justify-content: center;
+    display: block; 
+    /* margin: 10px 0; */
     color: white;
 }
 #area {

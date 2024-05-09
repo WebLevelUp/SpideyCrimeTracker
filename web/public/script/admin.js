@@ -118,3 +118,4 @@ function showSection(sectionId) {
         errorText.textContent = message;
         element.closest(".form-group").appendChild(errorText);
     }
+    window.showSection = showSection
