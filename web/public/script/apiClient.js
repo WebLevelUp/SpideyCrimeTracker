@@ -69,3 +69,43 @@ export async function createIncident(data) {
 
     return response.json();
 }
+
+export async function getIncidents() {
+  return fetch(`${ apiUrl }/incident`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAccessToken()
+    },
+  }).then((r) => r.json());
+}
+
+export async function getHotSpots() {
+  return fetch(`${ apiUrl }/hotspot`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAccessToken()
+    },
+  }).then((r) => r.json());
+}
+
+export async function getHotSpotTypes() {
+  return fetch(`${ apiUrl }/hotspotType`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAccessToken()
+    },
+  }).then((r) => r.json());
+}
+
+export async function getAreas() {
+  return fetch(`${ apiUrl }/area`, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': getAccessToken()
+    },
+  }).then((r) => r.json());
+}
