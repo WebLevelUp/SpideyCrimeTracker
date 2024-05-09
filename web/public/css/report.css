@@ -17,7 +17,7 @@
 
 .header-text {
   font-size: 1.5rem;
-  color: #2c3e50;
+  color: white;
   margin: 0;
   padding: 20px 10px;
   width: 100%;
@@ -32,18 +32,18 @@
 }
 
 .form-container {
+  background: var(--red);
+  border-radius: 0.3125rem;
+  border: 0.125rem solid var(--dark-grey);
+  box-shadow: 0.25rem 0.25rem var(--dark-grey);
   background-image: url('../images/cobweb.jpg');
   background-size: 4rem auto;
   background-position: top left;
   background-repeat: no-repeat;
   margin: 1rem;
   padding: 2rem;
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  width: 100%;
+  width: 90%;
   max-width: 30rem;
-  background-color: white;
-  box-shadow: 0 4rem 4rem -3rem #495161;
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -67,6 +67,8 @@ select {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+  box-shadow: 0.25rem 0.25rem var(--dark-grey);
+  border: 0.125rem solid var(--dark-grey);
 }
 
 input[type=submit], textarea[type=submit] {

@@ -10,6 +10,7 @@ const routes = [
     {
         path: '/error',
         filename: 'error.html',
+        styles: ['error.css']
     },
     {
         path: '/report',
@@ -32,6 +33,14 @@ const routes = [
         scripts: ['admin.js'],
         styles: ['admin.css'],
         adminOnly: true
+    },
+    {
+        path: '/statistics',
+        filename: 'statistics.html',
+        includeSidebar: true,
+        scripts: ['statistics.js', 'sidebar.js'],
+        styles: ['statistics.css', 'sidebar.css'],
+        // adminOnly: true
     }
 ];
 

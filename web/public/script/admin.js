@@ -10,7 +10,7 @@ function showSection(sectionId) {
 
     const activeSection = document.getElementById(sectionId);
     if (activeSection) {
-        activeSection.style.display = 'block';
+        activeSection.style.display = 'flex';
         welcomeMessage.style.display = 'none';
     }
 }
@@ -49,7 +49,7 @@ areaForm.addEventListener('submit', async function (e) {
 
     clearErrors();
 
-    if (area === '') showError(areaInput, 'Select an area');
+    if (area === '') showError(areaInput, 'Select a suburb');
     if (province === '') showError(provinceDropdown, 'Select a province');
 
     if (document.querySelectorAll('.error').length > 0) return;
@@ -119,8 +119,8 @@ userTypeForm.addEventListener('submit', async function (e) {
 
     clearErrors();
 
-    if (userId === '') showError(userNameDropdown, 'Select an area');
-    if (roleId === '') showError(userTypeDropdown, 'Select a province');
+        if (userName === "") showError(userNameDropdown, "Select a user");
+        if (userType === "") showError(userTypeDropdown, "Select a role");
 
     if (document.querySelectorAll('.error').length > 0) return;
 

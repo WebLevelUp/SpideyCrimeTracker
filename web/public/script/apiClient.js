@@ -70,6 +70,18 @@ export async function createIncident(data) {
     return response.json();
 }
 
+export async function getIncidentStatistics() {
+    const response = await fetch(`${apiUrl}/incidents/statistics`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    });
+
+    return response.json();
+}
+
 export async function getIncidents() {
     return fetch(`${apiUrl}/incident`, {
         method: 'get',
