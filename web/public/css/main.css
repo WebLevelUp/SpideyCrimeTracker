@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Freeman&display=swap');
+
 :root {
     --red: #B11313;
     --blue: #275086;
-    --font-size: 16px;
+    --dark-grey: #323232;
+    --light-grey: #666;
 }
 
-body, html {
-    margin: 0;
-    padding: 0;
+body {
+    font-family: 'Freeman', sans-serif;
 }

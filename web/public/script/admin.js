@@ -8,7 +8,7 @@ function showSection(sectionId) {
 
     const activeSection = document.getElementById(sectionId);
     if (activeSection) {
-        activeSection.style.display = 'block';
+        activeSection.style.display = 'flex';
         welcomeMessage.style.display = 'none';
     }
 }

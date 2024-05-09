@@ -1,15 +1,14 @@
 @import url('../css/main.css');
+@import url('https://fonts.googleapis.com/css2?family=Freeman&display=swap');
 
 header {
-    font-family: Arial, Helvetica, sans-serif; 
+    font-family: 'Freeman', sans-serif;
     font-size: 2.5rem; 
     text-align: center; 
     padding: 1rem 2rem;
     margin: 0 auto;
     border-bottom: 0.25rem solid var(--red);
-    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
-    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5); 
-}
+   }
 
 .filters {
     display: flex;
@@ -51,13 +50,13 @@ input[type="text"]:hover, input[type="date"]:hover {
 }
 
 .card {
-    background: linear-gradient(135deg, var(--red) 0%, var(--blue) 100%);
-    color: white; 
+    background-color: var(--red);
+    border: 0.125rem solid var(--dark-grey);
+    box-shadow: 0.25rem 0.25rem var(--dark-grey);
     padding: 1.2rem; 
-    border-radius: 0.625rem;
-    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3); 
+    border-radius: 0.625rem; 
     width: 80%; 
-    max-width: 30.5rem;
+    max-width: 40rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
 }
@@ -72,6 +71,7 @@ input[type="text"]:hover, input[type="date"]:hover {
 }
 
 .card h2, .card h3, .card p {
+    font-family: 'Freeman', sans-serif;
     margin: 0;
-    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+    color: white;
 }

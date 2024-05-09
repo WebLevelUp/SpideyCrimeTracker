@@ -1,20 +1,18 @@
-<div id="navbar">
+<main id="navbar">
     <button class="nav-link" onclick="showSection('add')">Add an Area</button>
-    <button class="nav-link" onclick="showSection('about')">Add a Crime</button>
-    <button class="nav-link" onclick="showSection('contact')">Change User Role</button>
-</div>
+    <button class="nav-link" onclick="showSection('about')">Add a Type of Crime</button>
+    <button class="nav-link" onclick="showSection('contact')">Edit User</button>
+</main>
 
-<h1 id="welcomeMessage">Welcome to Admin Portal</h1>
+<h1 id="welcomeMessage">Welcome to the Admin Spider Web</h1>
 
 <div id="content">
     <section id="add" class="content-section">
         <form id="areaForm">
             <section class="form-group area">
-                <label for="area">Add an area</label>
-                <input type="text" name="area" id="area" />
+                <input type="text" name="area" id="area" placeholder="Suburb"/>
             </section> 
             <section class="form-group province">
-                <label for="province">Select a Province</label>
                 <select name="province" id="province" class="dropdown">
                     <option value="" selected disabled>Select a province</option>
                 </select>
@@ -28,8 +26,7 @@
     <section id="about" class="content-section">
         <form id="crimeForm">
             <section class="form-group crime-type">
-                <label for="crime-type">Add a crime</label>
-                <input type="text" name="crime-type" id="crime-type" />
+                <input type="text" name="crime-type" id="crime-type" placeholder="Type of crime"/>
             </section>
             <section class="form-group submit-btn">
                 <input type="submit" value="Submit">
@@ -42,16 +39,14 @@
         <form id="userTypeForm">
 
             <section class="form-group user-name">
-                <label for="user-name">Select a user-name</label>
                 <select name="user-name" id="user-name" class="dropdown">
-                    <option value="" selected disabled>Select a user-name</option>
+                    <option value="" selected disabled>Select a Username</option>
                 </select>
             </section>
 
             <section class="form-group user-type">
-                <label for="user-type">Select a Type</label>
                 <select name="user-type" id="user-type" class="dropdown">
-                    <option value="" selected disabled>Select a Type</option>
+                    <option value="" selected disabled>Select a Role</option>
                 </select>
             </section>
 
