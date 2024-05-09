@@ -4,6 +4,7 @@ const githubButton = document.getElementById('login-button');
 githubButton.addEventListener('click', () => window.location.replace(githubLoginUrl));
 
 function toggleAbout() {
-  let about = document.querySelector('.about');
-  about.classList.toggle('active');
+    let about = document.querySelector('.about');
+    about.classList.toggle('active');
 }
+
