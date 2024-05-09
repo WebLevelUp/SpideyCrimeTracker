@@ -1,4 +1,3 @@
-<!-- <div id="sidebar-container"></div> -->
 <main class="container">
     <section class="form-container">
         <header class="header-container">
@@ -6,30 +5,23 @@
         </header>
         <form id="myForm">
             <section class="form-group province">
-                <label for="province">Select a Province</label>
                 <select name="province" id="province" class="dropdown">
                     <option value="" selected disabled>Select a province</option>
                 </select>
             </section>
             <section class="form-group area">
-                <label for="area">Select an Area</label>
                 <select name="area" id="area" class="dropdown">
                     <option value="" selected disabled>Select an area</option>
                 </select>
             </section>
             <section class="form-group date">
-                <label for="date">Date of the crime</label>
                 <input type="date" id="date">
             </section>
             <section class="form-group crimetype">
-                <label for="crime-type">Type of crime</label>
-                <select name="crime-type" id="crime-type" class="dropdown">
-                    <option value="" selected disabled>Select a type of crime</option>
-                </select>
-            </section>
+                <input type="text" name="crime-type" id="crime-type" placeholder="Type of crime"/>
+            </section> 
             <section class="form-group description">
-                <label for="description">Description</label>
-                <textarea type="text" name="description" id="description"></textarea>
+                <textarea type="text" name="description" id="description" placeholder="Description"></textarea>
             </section>
             <section class="form-group submit-btn">
                 <input type="submit" value="Submit">

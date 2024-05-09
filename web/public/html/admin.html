@@ -1,20 +1,23 @@
-<div id="navbar">
-    <button class="nav-link" onclick="showSection('add')">Add an Area</button>
-    <button class="nav-link" onclick="showSection('about')">Add a Recent crime</button>
-    <button class="nav-link" onclick="showSection('contact')">Change User Role</button>
-</div>
+<main id="navbar">
+    <button class="nav-link" onclick="showSection('add-area')">Add an Area</button>
+    <button class="nav-link" onclick="showSection('add-crime')">Add a Type of Crime</button>
+    <button class="nav-link" onclick="showSection('user-info')">Edit User</button>
+</main>
 
-<h1>welcome to admin portal</h1>
+<section id="welcomeMessage">
+    <h1>Hey There, Spider-Friend! Welcome to Your Web-Crafting Workshop!</h1>
+    <p>Get ready to spin new threads as you add areas, detail dastardly deeds, and empower agents in the field. </p>
+    <p>Your toolkit is loaded with features that make you the master of web-slinging efficiency.</p>
+    <p> Let’s keep our city safe and data tidy, one click at a time!</p>
+</section>
 
 <div id="content">
-    <section id="add" class="content-section">
+    <section id="add-area" class="content-section">
         <form id="areaForm">
             <section class="form-group area">
-                <label for="area">Add an area</label>
-                <input type="text" name="area" id="area" />
+                <input type="text" name="area" id="area" placeholder="Suburb"/>
             </section> 
             <section class="form-group province">
-                <label for="province">Select a Province</label>
                 <select name="province" id="province" class="dropdown">
                     <option value="" selected disabled>Select a province</option>
                 </select>
@@ -25,11 +28,10 @@
         </form>
     </section>
 
-    <section id="about" class="content-section">
+    <section id="add-crime" class="content-section">
         <form id="crimeForm">
             <section class="form-group crime-type">
-                <label for="crime-type">Add a crime</label>
-                <input type="text" name="crime-type" id="crime-type" />
+                <input type="text" name="crime-type" id="crime-type" placeholder="Type of crime"/>
             </section>
             <section class="form-group submit-btn">
                 <input type="submit" value="Submit">
@@ -38,20 +40,18 @@
     </section>
 
     
-    <section id="contact" class="content-section">
+    <section id="user-info" class="content-section">
         <form id="userTypeForm">
 
             <section class="form-group user-name">
-                <label for="user-name">Select a user-name</label>
                 <select name="user-name" id="user-name" class="dropdown">
-                    <option value="" selected disabled>Select a user-name</option>
+                    <option value="" selected disabled>Select a Username</option>
                 </select>
             </section>
 
             <section class="form-group user-type">
-                <label for="user-type">Select a Type</label>
                 <select name="user-type" id="user-type" class="dropdown">
-                    <option value="" selected disabled>Select a Type</option>
+                    <option value="" selected disabled>Select a Role</option>
                 </select>
             </section>
 

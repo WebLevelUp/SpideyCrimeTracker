@@ -1,18 +1,17 @@
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+
     sections.forEach(section => {
         section.style.display = 'none';
     });
 
     const activeSection = document.getElementById(sectionId);
     if (activeSection) {
-        activeSection.style.display = 'block';
+        activeSection.style.display = 'flex';
+        welcomeMessage.style.display = 'none';
     }
 }
-
-window.onload = () => {
-    showSection('add');
-};
 
     const areaForm = document.getElementById("areaForm");
     const crimeForm = document.getElementById("crimeForm");
@@ -60,7 +59,7 @@ window.onload = () => {
 
         clearErrors();
 
-        if (area === "") showError(areaInput, "Select an area");
+        if (area === "") showError(areaInput, "Add a suburb");
         if (province === "") showError(provinceDropdown, "Select a province");
 
         if (document.querySelectorAll(".error").length > 0) return;
@@ -96,8 +95,8 @@ window.onload = () => {
 
         clearErrors();
 
-        if (userName === "") showError(userNameDropdown, "Select an area");
-        if (userType === "") showError(userTypeDropdown, "Select a province");
+        if (userName === "") showError(userNameDropdown, "Select a user");
+        if (userType === "") showError(userTypeDropdown, "Select a role");
 
         if (document.querySelectorAll(".error").length > 0) return;
 
@@ -119,3 +118,4 @@ window.onload = () => {
         errorText.textContent = message;
         element.closest(".form-group").appendChild(errorText);
     }
+    window.showSection = showSection
