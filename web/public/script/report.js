@@ -93,7 +93,7 @@ function load() {
         createIncident(formData).then(() => {
             alert('successfully created');
         });
-    };
+    }
 
     form.addEventListener('submit', handleFormData);
 

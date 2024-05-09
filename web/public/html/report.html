@@ -1,4 +1,4 @@
-<main class="container">
+<section class="container">
     <section class="form-container">
         <header class="header-container">
             <h1 class="header-text">Spider-Sense Tingling: Report a Crime to Protect Your Neighborhood</h1>
@@ -18,8 +18,10 @@
                 <input type="date" id="date">
             </section>
             <section class="form-group crimetype">
-                <input type="text" name="crime-type" id="crime-type" placeholder="Type of Crime"/>
-            </section> 
+                <select name="crime-type" id="crime-type" class="dropdown">
+                    <option value="" selected disabled>Select a type of crime</option>
+                </select>
+            </section>
             <section class="form-group description">
                 <textarea type="text" name="description" id="description" placeholder="Description"></textarea>
             </section>
@@ -28,4 +30,4 @@
             </section>
         </form>
     </section>
-</main>
+</section>
