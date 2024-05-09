@@ -8,3 +8,4 @@ function toggleAbout() {
     about.classList.toggle('active');
 }
 
+window.toggleAbout = toggleAbout;
