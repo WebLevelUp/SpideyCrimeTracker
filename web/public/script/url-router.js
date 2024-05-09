@@ -29,9 +29,9 @@ const routes = [
     {
         path: '/admin',
         filename: 'admin.html',
-        // includeSidebar: true,
-        scripts: ['admin.js'],
-        styles: ['admin.css'],
+        includeSidebar: true,
+        scripts: ['admin.js', 'sidebar.js'],
+        styles: ['admin.css', 'sidebar.css'],
         adminOnly: true
     },
     {
@@ -162,7 +162,7 @@ window.addEventListener('DOMContentLoaded', () => {
 async function loadSidebar() {
     const sidebar = await loadPage('sidebar.html');
     content.innerHTML =
-      `${sidebar}
+        `${sidebar}
         <section style="margin-left: 5em">
             ${content.innerHTML}
         </section>`;
