@@ -1,6 +1,6 @@
-import {getAllProvinces, getIncidentStatistics} from "./apiClient.js";
+import {getIncidentStatistics} from './apiClient.js';
 
-function load(){
+function load() {
     function createBar(value, max) {
         const bar = document.createElement('section');
         bar.classList.add('bar');
@@ -52,12 +52,12 @@ function load(){
     const graphData = [];
 
     getIncidentStatistics().then((stats) => {
-        stats.map(stat => {
-            const label = stat.province;
-            const value = stat.totalIncidents;
-            graphData.push({label, value});
-        });
-        populateBarChart(graphData)
+            stats.map(stat => {
+                const label = stat.province;
+                const value = stat.totalIncidents;
+                graphData.push({label, value});
+            });
+            populateBarChart(graphData);
         }
     );
 }

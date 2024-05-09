@@ -83,41 +83,98 @@ export async function getIncidentStatistics() {
 }
 
 export async function getIncidents() {
-  return fetch(`${ apiUrl }/incident`, {
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAccessToken()
-    },
-  }).then((r) => r.json());
+    return fetch(`${apiUrl}/incident`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    }).then((r) => r.json());
 }
 
 export async function getHotSpots() {
-  return fetch(`${ apiUrl }/hotspot`, {
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAccessToken()
-    },
-  }).then((r) => r.json());
+    return fetch(`${apiUrl}/hotspot`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    }).then((r) => r.json());
 }
 
 export async function getHotSpotTypes() {
-  return fetch(`${ apiUrl }/hotspotType`, {
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAccessToken()
-    },
-  }).then((r) => r.json());
+    return fetch(`${apiUrl}/hotspotType`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    }).then((r) => r.json());
 }
 
 export async function getAreas() {
-  return fetch(`${ apiUrl }/area`, {
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': getAccessToken()
-    },
-  }).then((r) => r.json());
+    return fetch(`${apiUrl}/area`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    }).then((r) => r.json());
+}
+
+export async function createArea(data) {
+    const response = await fetch(`${apiUrl}/area`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+export async function createTypeOfCrime(data) {
+    const response = await fetch(`${apiUrl}/hotspotType`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+export async function getUsers() {
+    const response = await fetch(`${apiUrl}/user`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    });
+
+    return response.json();
+}
+
+export async function getRoles() {
+    const response = await fetch(`${apiUrl}/role`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+    });
+
+    return response.json();
+}
+
+export async function updateUserRole(data) {
+    const response = await fetch(`${apiUrl}/user`, {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAccessToken()
+        },
+        body: JSON.stringify(data)
+    });
 }

@@ -51,12 +51,10 @@ export function createUser(username, roleId) {
 export function updateUser(user) {
     const query =
         `UPDATE ${tableName}
-         SET roleId=@roleId,
-             username=@username
+         SET roleId=@roleId
          WHERE userId = @userId `;
     const params = [
         {name: 'userId', type: TYPES.Int, value: user.userId},
-        {name: 'username', type: TYPES.VarChar, value: user.username},
         {name: 'roleId', type: TYPES.Int, value: user.roleId}
     ];
 

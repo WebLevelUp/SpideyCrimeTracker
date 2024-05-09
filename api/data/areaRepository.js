@@ -20,7 +20,10 @@ export function getAllAreas() {
  *
  * @return {Promise<Area[]>} - Array of area objects
  */
-export function createArea(areaDto) {
+export async function createAreaIfNotExists(areaDto) {
+    if (await areaExists(areaDto.province, areaDto.suburb)) {
+        return;
+    }
     const query = `INSERT INTO ${tableName} (province, suburb)
                    VALUES (@province, @suburb)`;
     const params = [
@@ -47,4 +50,19 @@ export function getSuburbsForProvince(province) {
         {name: 'province', type: TYPES.VarChar, value: province},
     ];
     return executeStatement(query, params);
+}
+
+export async function areaExists(province, suburb) {
+    const query =
+        `SELECT *
+         FROM ${tableName}
+         WHERE suburb = @suburb
+           AND province = @province`;
+    const params = [
+        {name: 'suburb', type: TYPES.VarChar, value: suburb},
+        {name: 'province', type: TYPES.VarChar, value: province},
+    ];
+
+    const suburbs = await executeStatement(query, params);
+    return suburbs.length > 0;
 }

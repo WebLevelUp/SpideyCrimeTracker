@@ -1,3 +1,5 @@
+import {createArea, createTypeOfCrime, getAllProvinces, getRoles, getUsers, updateUserRole} from './apiClient.js';
+
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -13,109 +15,144 @@ function showSection(sectionId) {
     }
 }
 
-    const areaForm = document.getElementById("areaForm");
-    const crimeForm = document.getElementById("crimeForm");
-    const userTypeForm = document.getElementById("userTypeForm")
+function load() {
+    const areaForm = document.getElementById('areaForm');
+    const crimeForm = document.getElementById('crimeForm');
+    const userTypeForm = document.getElementById('userTypeForm');
 
-    const provinces = ["Gauteng", "KwaZulu-Natal", "Free State", "Western Cape"];
-    const userNames = ["Bob", "Felicia",];
-    const userTypes = ["admin", "user"]
+    let allUsers = [];
 
-    const provinceSelect = document.getElementById("province");
-    const userNameSelect = document.getElementById("user-name")
-    const userTypeSelect = document.getElementById("user-type")
+    const provinceSelect = document.getElementById('province');
+    const userNameSelect = document.getElementById('user-name');
+    const userTypeSelect = document.getElementById('user-type');
 
-    let formDataArray = [];
-    let userTypeArray = [];
+    provinceSelect.disabled = true;
+    userNameSelect.disabled = true;
+    userTypeSelect.disabled = true;
 
-    provinces.map(province => {
-        const option = document.createElement("option");
-        option.value = province;
-        option.textContent = province;
-        provinceSelect.appendChild(option);
+    getAllProvinces().then((provinces) => {
+        provinces.map(province => {
+            const option = document.createElement('option');
+            option.value = province;
+            option.textContent = province;
+            provinceSelect.appendChild(option);
+        });
+        provinceSelect.disabled = false;
     });
 
-    userNames.map(userName => {
-        const option = document.createElement("option");
-        option.value = userName;
-        option.textContent = userName;
-        userNameSelect.appendChild(option);
-    });
-
-    userTypes.map(userType => {
-        const option = document.createElement("option");
-        option.value = userType;
-        option.textContent = userType;
-        userTypeSelect.appendChild(option);
-    });
-
-    areaForm.addEventListener("submit", function (e) {
+    areaForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const areaInput = document.getElementById("area");
-        const provinceDropdown = document.getElementById("province");
+        const areaInput = document.getElementById('area');
+        const provinceDropdown = document.getElementById('province');
         const area = areaInput.value.trim();
         const province = provinceDropdown.value;
 
         clearErrors();
 
-        if (area === "") showError(areaInput, "Add a suburb");
-        if (province === "") showError(provinceDropdown, "Select a province");
+        if (area === '') showError(areaInput, 'Select a suburb');
+        if (province === '') showError(provinceDropdown, 'Select a province');
 
-        if (document.querySelectorAll(".error").length > 0) return;
+        if (document.querySelectorAll('.error').length > 0) return;
 
-        const formData = { area, province };
-        formDataArray.push(formData);
+        const formData = {
+            suburb: area,
+            province: province,
+        };
 
         areaForm.reset();
+        await createArea(formData);
     });
 
-    crimeForm.addEventListener("submit", function (e) {
+    crimeForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const crimeInput = document.getElementById("crime-type");
+        const crimeInput = document.getElementById('crime-type');
         const crime = crimeInput.value.trim();
 
         clearErrors();
 
-        if (crime === "") showError(crimeInput, "Enter your type of crime");
+        if (crime === '') showError(crimeInput, 'Enter your type of crime');
 
-        if (document.querySelectorAll(".error").length > 0) return;
-
+        if (document.querySelectorAll('.error').length > 0) return;
+        const formData = {hotspotType: crime};
         crimeForm.reset();
+        await createTypeOfCrime(formData);
     });
 
-    userTypeForm.addEventListener("submit", function (e) {
+    getUsers().then((users) => {
+        allUsers = users;
+        getRoles().then((roles) => {
+            users.map(user => {
+                const option = document.createElement('option');
+                option.value = user.userId;
+                option.textContent = user.username;
+                userNameSelect.appendChild(option);
+            });
+
+            userNameSelect.disabled = false;
+
+            roles.map(role => {
+                const option = document.createElement('option');
+                option.value = role.roleId;
+                option.textContent = role.roleType;
+                userTypeSelect.appendChild(option);
+            });
+        });
+    });
+
+    userNameSelect.addEventListener('change', () => {
+        const userId = Number(userNameSelect.value);
+        const user = allUsers.find((user) => {
+            return user.userId === userId;
+        });
+        userTypeSelect.value = user.roleId;
+        userTypeSelect.disabled = false;
+    });
+
+    userTypeForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const userNameDropdown = document.getElementById("user-name");
-        const userTypeDropdown = document.getElementById("user-type");
-        const userName = userNameDropdown.value;
-        const userType = userTypeDropdown.value;
+        const userNameDropdown = document.getElementById('user-name');
+        const userTypeDropdown = document.getElementById('user-type');
+        const userId = userNameDropdown.value;
+        const roleId = userTypeDropdown.value;
 
         clearErrors();
 
-        if (userName === "") showError(userNameDropdown, "Select a user");
-        if (userType === "") showError(userTypeDropdown, "Select a role");
+        if (userId === '') showError(userNameDropdown, 'Select a user');
+        if (roleId === '') showError(userTypeDropdown, 'Select a role');
 
-        if (document.querySelectorAll(".error").length > 0) return;
+        if (document.querySelectorAll('.error').length > 0) return;
 
-        const userFormData = { userName, userType };
-        userTypeArray.push(userFormData);
-
+        const userFormData = {userId: Number(userId), roleId: Number(roleId)};
         userTypeForm.reset();
+
+        userNameSelect.disabled = true;
+        userTypeSelect.disabled = true;
+
+        await updateUserRole(userFormData);
+        allUsers = await getUsers();
+
+        userNameSelect.disabled = false;
+        userTypeSelect.disabled = false;
     });
 
     function clearErrors() {
-        document.querySelectorAll(".form-group .error").forEach(el => el.classList.remove("error"));
-        document.querySelectorAll(".error-text").forEach(el => el.remove());
+        document.querySelectorAll('.form-group .error').forEach((el) => el.classList.remove('error'));
+        document.querySelectorAll('.error-text').forEach(el => el.remove());
     }
 
     function showError(element, message) {
-        element.classList.add("error");
-        const errorText = document.createElement("small");
-        errorText.className = "error-text";
+        element.classList.add('error');
+        const errorText = document.createElement('small');
+        errorText.className = 'error-text';
         errorText.textContent = message;
-        element.closest(".form-group").appendChild(errorText);
+        element.closest('.form-group').appendChild(errorText);
     }
-    window.showSection = showSection
+}
+
+window.showSection = showSection;
+document.addEventListener('admin.js', () => {
+    load();
+});

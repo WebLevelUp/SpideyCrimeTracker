@@ -29,9 +29,9 @@ const routes = [
     {
         path: '/admin',
         filename: 'admin.html',
-        // includeSidebar: true,
-        scripts: ['admin.js'],
-        styles: ['admin.css'],
+        includeSidebar: true,
+        scripts: ['admin.js', 'sidebar.js'],
+        styles: ['admin.css', 'sidebar.css'],
         adminOnly: true
     },
     {
@@ -40,11 +40,10 @@ const routes = [
         includeSidebar: true,
         scripts: ['statistics.js', 'sidebar.js'],
         styles: ['statistics.css', 'sidebar.css'],
-        // adminOnly: true
     }
 ];
 
-const loggedInPath = '/report';
+const loggedInPath = '/recent';
 const content = document.getElementById('content');
 let loadedScripts = [];
 let loadedStyles = [];
@@ -114,8 +113,6 @@ function loadScripts(scripts) {
             console.log('Error on loading file: ', err);
         });
     });
-
-    ;
 }
 
 function clearStyles() {
@@ -162,7 +159,7 @@ window.addEventListener('DOMContentLoaded', () => {
 async function loadSidebar() {
     const sidebar = await loadPage('sidebar.html');
     content.innerHTML =
-      `${sidebar}
+        `${sidebar}
         <section style="margin-left: 5em">
             ${content.innerHTML}
         </section>`;
