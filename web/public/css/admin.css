@@ -33,10 +33,10 @@
 } */
 
 /* styles.css */
-#navbar button {
+/* #navbar button {
     margin: 10px;
     padding: 10px;
-}
+} */
 
 .content-section {
     display: none; /* Hide all sections initially */
@@ -48,4 +48,45 @@
 /* Active section style */
 .active {
     display: block;
+}
+
+.error-message {
+    color: red;
+  }
+  
+  /* form textarea.error, */
+  form input.error,
+  form select.error {
+    border-color: #f91919;
+    background: #f9f0f1;
+  }
+
+
+  /* new */
+
+  #navbar {
+    display: flex;
+    justify-content: center;  
+    align-items: center;     }
+
+/* #navbar button{
+    border-color: var(--red);
+    border-radius: 2rem;
+    margin: 10px;
+    padding: 10px;
+} */
+
+#navbar .nav-link {
+    width: 15%;
+    color: white;
+    background-color: var(--red);
+    border-color: var(--red);
+    border-radius: 2rem;
+    /* margin: 10px;
+    padding: 10px; */
+}
+
+#navbar .nav-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0.5rem 0.75rem rgba(0, 0, 0, 0.4);
 }
