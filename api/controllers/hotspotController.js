@@ -5,20 +5,20 @@ export function hotspotController() {
     app.get('/hotspot', async (req, res) => {
         let options = {};
         const queryParams = req.query;
-        if (queryParams.areaID) {
-            const areaID = parseInt(queryParams.areaID, 10);
-            if (isNaN(areaID)) {
-                return res.status(400).send('Invalid areaID');
+        if (queryParams.areaId) {
+            const areaId = parseInt(queryParams.areaId, 10);
+            if (isNaN(areaId)) {
+                return res.status(400).send('Invalid areaId');
             } else {
-                options.areaID = areaID;
+                options.areaId = areaId;
             }
         }
-        if (queryParams.hotspotID) {
-            const hotspotID = parseInt(queryParams.hotspotID, 10);
-            if (isNaN(hotspotID)) {
-                return res.status(400).send('Invalid hotspotID');
+        if (queryParams.hotspotId) {
+            const hotspotId = parseInt(queryParams.hotspotId, 10);
+            if (isNaN(hotspotId)) {
+                return res.status(400).send('Invalid hotspotId');
             } else {
-                options.hotspotID = hotspotID;
+                options.hotspotId = hotspotId;
             }
         }
 

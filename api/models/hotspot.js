@@ -1,13 +1,13 @@
 export class Hotspot {
-    hotspotID;
+    hotspotId;
     description;
-    areaID;
-    hotspotTypeID;
+    areaId;
+    hotspotTypeId;
 
-    constructor(areaId, province, suburb, hotspotTypeID) {
-        this.hotspotID = areaId;
-        this.description = province;
-        this.areaID = suburb;
-        this.hotspotTypeID = hotspotTypeID;
+    constructor(areaId, description, hotspotId, hotspotTypeId) {
+        this.hotspotId = hotspotId;
+        this.description = description;
+        this.areaId = areaId;
+        this.hotspotTypeId = hotspotTypeId;
     }
 }
