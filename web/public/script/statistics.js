@@ -49,15 +49,6 @@ function load(){
         populateYAxis(maxValue, graphData.length + 1);
     }
 
-    const sampleData = [
-        { label: 'A', value: 30 },
-        { label: 'B', value: 50 },
-        { label: 'C', value: 75 },
-        { label: 'D', value: 100 },
-        { label: 'E', value: 54 },
-    ];
-
-
     const graphData = [];
 
     getIncidentStatistics().then((stats) => {
