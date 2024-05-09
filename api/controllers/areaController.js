@@ -1,5 +1,5 @@
 import {app} from '../index.js';
-import {createArea, getAllAreas, getAllProvinces, getSuburbsForProvince} from '../data/areaRepository.js';
+import {createAreaIfNotExists, getAllAreas, getAllProvinces, getSuburbsForProvince} from '../data/areaRepository.js';
 
 export function areaController() {
     app.get('/area', async (req, res) => {
@@ -7,7 +7,7 @@ export function areaController() {
     });
 
     app.post('/area', async (req, res) => {
-        await createArea(req.body);
+        await createAreaIfNotExists(req.body);
         res.sendStatus(201);
     });
 

@@ -1,5 +1,5 @@
 import {app} from '../index.js';
-import {createHotspotType, getAllHotspotTypes} from '../data/hotspotTypeRepository.js';
+import {createHotspotTypeIfNotExists, getAllHotspotTypes} from '../data/hotspotTypeRepository.js';
 
 export function hotspotTypeController() {
     app.get('/hotspotType', async (req, res) => {
@@ -8,7 +8,7 @@ export function hotspotTypeController() {
     });
 
     app.post('/hotspotType', async (req, res) => {
-        await createHotspotType(req.body);
+        await createHotspotTypeIfNotExists(req.body);
         res.sendStatus(201);
     });
 }

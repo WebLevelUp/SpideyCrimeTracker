@@ -1,3 +1,5 @@
+import {createArea, createTypeOfCrime, getAllProvinces, getRoles, getUsers, updateUserRole} from './apiClient.js';
+
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -13,108 +15,139 @@ function showSection(sectionId) {
     }
 }
 
-    const areaForm = document.getElementById("areaForm");
-    const crimeForm = document.getElementById("crimeForm");
-    const userTypeForm = document.getElementById("userTypeForm")
+const areaForm = document.getElementById('areaForm');
+const crimeForm = document.getElementById('crimeForm');
+const userTypeForm = document.getElementById('userTypeForm');
 
-    const provinces = ["Gauteng", "KwaZulu-Natal", "Free State", "Western Cape"];
-    const userNames = ["Bob", "Felicia",];
-    const userTypes = ["admin", "user"]
+let allUsers = [];
 
-    const provinceSelect = document.getElementById("province");
-    const userNameSelect = document.getElementById("user-name")
-    const userTypeSelect = document.getElementById("user-type")
+const provinceSelect = document.getElementById('province');
+const userNameSelect = document.getElementById('user-name');
+const userTypeSelect = document.getElementById('user-type');
 
-    let formDataArray = [];
-    let userTypeArray = [];
+provinceSelect.disabled = true;
+userNameSelect.disabled = true;
+userTypeSelect.disabled = true;
 
+getAllProvinces().then((provinces) => {
     provinces.map(province => {
-        const option = document.createElement("option");
+        const option = document.createElement('option');
         option.value = province;
         option.textContent = province;
         provinceSelect.appendChild(option);
     });
+    provinceSelect.disabled = false;
+});
 
-    userNames.map(userName => {
-        const option = document.createElement("option");
-        option.value = userName;
-        option.textContent = userName;
-        userNameSelect.appendChild(option);
+areaForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const areaInput = document.getElementById('area');
+    const provinceDropdown = document.getElementById('province');
+    const area = areaInput.value.trim();
+    const province = provinceDropdown.value;
+
+    clearErrors();
+
+    if (area === '') showError(areaInput, 'Select an area');
+    if (province === '') showError(provinceDropdown, 'Select a province');
+
+    if (document.querySelectorAll('.error').length > 0) return;
+
+    const formData = {
+        suburb: area,
+        province: province,
+    };
+
+    areaForm.reset();
+    await createArea(formData);
+});
+
+crimeForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const crimeInput = document.getElementById('crime-type');
+    const crime = crimeInput.value.trim();
+
+    clearErrors();
+
+    if (crime === '') showError(crimeInput, 'Enter your type of crime');
+
+    if (document.querySelectorAll('.error').length > 0) return;
+    const formData = {hotspotType: crime};
+    crimeForm.reset();
+    await createTypeOfCrime(formData);
+});
+
+getUsers().then((users) => {
+    allUsers = users;
+    getRoles().then((roles) => {
+        users.map(user => {
+            const option = document.createElement('option');
+            option.value = user.userId;
+            option.textContent = user.username;
+            userNameSelect.appendChild(option);
+        });
+
+        userNameSelect.disabled = false;
+
+        roles.map(role => {
+            const option = document.createElement('option');
+            option.value = role.roleId;
+            option.textContent = role.roleType;
+            userTypeSelect.appendChild(option);
+        });
     });
+});
 
-    userTypes.map(userType => {
-        const option = document.createElement("option");
-        option.value = userType;
-        option.textContent = userType;
-        userTypeSelect.appendChild(option);
+userNameSelect.addEventListener('change', () => {
+    const userId = Number(userNameSelect.value);
+    const user = allUsers.find((user) => {
+        return user.userId === userId;
     });
+    userTypeSelect.value = user.roleId;
+    userTypeSelect.disabled = false;
+});
 
-    areaForm.addEventListener("submit", function (e) {
-        e.preventDefault();
+userTypeForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-        const areaInput = document.getElementById("area");
-        const provinceDropdown = document.getElementById("province");
-        const area = areaInput.value.trim();
-        const province = provinceDropdown.value;
+    const userNameDropdown = document.getElementById('user-name');
+    const userTypeDropdown = document.getElementById('user-type');
+    const userId = userNameDropdown.value;
+    const roleId = userTypeDropdown.value;
 
-        clearErrors();
+    clearErrors();
 
-        if (area === "") showError(areaInput, "Select an area");
-        if (province === "") showError(provinceDropdown, "Select a province");
+    if (userId === '') showError(userNameDropdown, 'Select an area');
+    if (roleId === '') showError(userTypeDropdown, 'Select a province');
 
-        if (document.querySelectorAll(".error").length > 0) return;
+    if (document.querySelectorAll('.error').length > 0) return;
 
-        const formData = { area, province };
-        formDataArray.push(formData);
+    const userFormData = {userId: Number(userId), roleId: Number(roleId)};
+    userTypeForm.reset();
 
-        areaForm.reset();
-    });
+    userNameSelect.disabled = true;
+    userTypeSelect.disabled = true;
 
-    crimeForm.addEventListener("submit", function (e) {
-        e.preventDefault();
+    await updateUserRole(userFormData);
+    allUsers = await getUsers();
 
-        const crimeInput = document.getElementById("crime-type");
-        const crime = crimeInput.value.trim();
+    userNameSelect.disabled = false;
+    userTypeSelect.disabled = false;
+});
 
-        clearErrors();
+function clearErrors() {
+    document.querySelectorAll('.form-group .error').forEach((el) => el.classList.remove('error'));
+    document.querySelectorAll('.error-text').forEach(el => el.remove());
+}
 
-        if (crime === "") showError(crimeInput, "Enter your type of crime");
+function showError(element, message) {
+    element.classList.add('error');
+    const errorText = document.createElement('small');
+    errorText.className = 'error-text';
+    errorText.textContent = message;
+    element.closest('.form-group').appendChild(errorText);
+}
 
-        if (document.querySelectorAll(".error").length > 0) return;
-
-        crimeForm.reset();
-    });
-
-    userTypeForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const userNameDropdown = document.getElementById("user-name");
-        const userTypeDropdown = document.getElementById("user-type");
-        const userName = userNameDropdown.value;
-        const userType = userTypeDropdown.value;
-
-        clearErrors();
-
-        if (userName === "") showError(userNameDropdown, "Select an area");
-        if (userType === "") showError(userTypeDropdown, "Select a province");
-
-        if (document.querySelectorAll(".error").length > 0) return;
-
-        const userFormData = { userName, userType };
-        userTypeArray.push(userFormData);
-
-        userTypeForm.reset();
-    });
-
-    function clearErrors() {
-        document.querySelectorAll(".form-group .error").forEach(el => el.classList.remove("error"));
-        document.querySelectorAll(".error-text").forEach(el => el.remove());
-    }
-
-    function showError(element, message) {
-        element.classList.add("error");
-        const errorText = document.createElement("small");
-        errorText.className = "error-text";
-        errorText.textContent = message;
-        element.closest(".form-group").appendChild(errorText);
-    }
+window.showSection = showSection;

@@ -20,7 +20,10 @@ export function getAllHotspotTypes() {
  *
  * @return {Promise<HotspotType[]>} - Array of hotspotType objects
  */
-export function createHotspotType(hotspotTypeDto) {
+export async function createHotspotTypeIfNotExists(hotspotTypeDto) {
+    if (await hotspotTypeExists(hotspotTypeDto.hotspotType)) {
+        return;
+    }
     const query = `INSERT INTO ${tableName} (hotspotType)
                    VALUES (@hotspotType)`;
     const params = [
@@ -30,4 +33,16 @@ export function createHotspotType(hotspotTypeDto) {
     return executeStatement(query, params);
 }
 
+export async function hotspotTypeExists(hotspotType) {
+    const query =
+        `SELECT *
+         FROM ${tableName}
+         WHERE hotspotType = @hotspotType`;
+    const params = [
+        {name: 'hotspotType', type: TYPES.VarChar, value: hotspotType},
+    ];
+
+    const hotspotTypes = await executeStatement(query, params);
+    return hotspotTypes.length > 0;
+}
 
