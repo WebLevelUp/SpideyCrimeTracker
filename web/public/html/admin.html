@@ -1,3 +1,27 @@
-<main>
-    <p>Admin page will go here</p>
-</main>
+<div id="navbar">
+    <button class="nav-link" onclick="showSection('add')">Add</button>
+    <button class="nav-link" onclick="showSection('about')">Add recent crime</button>
+    <button class="nav-link" onclick="showSection('contact')">Change role</button>
+</div>
+
+<div id="content">
+    <section id="add" class="content-section">
+        <form id="myForm">
+            <section class="form-group area">
+                <label for="area">Add an area</label>
+                <input type="text" name="area" id="area" />
+            </section> 
+            <section class="form-group province">
+                <label for="province">Select a Province</label>
+                <select name="province" id="province" class="dropdown">
+                    <option value="" selected disabled>Select a province</option>
+                </select>
+            </section>
+            <section class="form-group submit-btn">
+                <input type="submit" value="Submit">
+            </section>
+        </form>
+    </section>
+    <section id="about" class="content-section">About Content</section>
+    <section id="contact" class="content-section">Contact Content</section>
+</div>
