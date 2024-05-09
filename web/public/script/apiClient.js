@@ -1,5 +1,4 @@
-export const apiUrl = 'http://localhost:3000';
-
+export const apiUrl = 'http://spidey-crime-tracker-environment.eba-whvjczmu.eu-west-1.elasticbeanstalk.com';
 function getAccessToken() {
     return `Bearer ${localStorage.getItem('access_token')}`;
 }
