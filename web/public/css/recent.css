@@ -1,6 +1,13 @@
 @import url('../css/main.css');
 @import url('https://fonts.googleapis.com/css2?family=Freeman&display=swap');
 
+body {
+    background-image: url('../images/spiderman-swing-wallpaper.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
 header {
     font-family: 'Freeman', sans-serif;
     font-size: 2.5rem; 
@@ -28,6 +35,7 @@ header {
 }
 
 input[type="text"], input[type="date"] {
+    font-family: 'Freeman', sans-serif;
     padding: 0.8rem;
     margin: 0.3rem;
     flex-grow: 1;

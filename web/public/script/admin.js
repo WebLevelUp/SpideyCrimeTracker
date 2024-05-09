@@ -59,8 +59,8 @@ function showSection(sectionId) {
 
         clearErrors();
 
-        if (area === "") showError(areaInput, "Add a suburb");
-        if (province === "") showError(provinceDropdown, "Select a province");
+        if (area === "") showError(areaInput, "Please add a suburb");
+        if (province === "") showError(provinceDropdown, "Please select a province");
 
         if (document.querySelectorAll(".error").length > 0) return;
 
@@ -78,7 +78,7 @@ function showSection(sectionId) {
 
         clearErrors();
 
-        if (crime === "") showError(crimeInput, "Enter your type of crime");
+        if (crime === "") showError(crimeInput, "Please enter your type of crime");
 
         if (document.querySelectorAll(".error").length > 0) return;
 
@@ -95,8 +95,8 @@ function showSection(sectionId) {
 
         clearErrors();
 
-        if (userName === "") showError(userNameDropdown, "Select a user");
-        if (userType === "") showError(userTypeDropdown, "Select a role");
+        if (userName === "") showError(userNameDropdown, "Please select a user");
+        if (userType === "") showError(userTypeDropdown, "Please Select a role");
 
         if (document.querySelectorAll(".error").length > 0) return;
 
@@ -113,7 +113,7 @@ function showSection(sectionId) {
 
     function showError(element, message) {
         element.classList.add("error");
-        const errorText = document.createElement("small");
+        const errorText = document.createElement("medium");
         errorText.className = "error-text";
         errorText.textContent = message;
         element.closest(".form-group").appendChild(errorText);
