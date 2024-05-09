@@ -3,23 +3,23 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
-  height: 100vh; 
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   overflow: auto;
 }
 
 .header-container {
   width: 100%;
   margin-top: -20px;
-  text-align: center; 
+  text-align: center;
 }
 
 .header-text {
   font-size: 1.5rem;
   color: white;
   margin: 0;
-  padding: 20px 10px; 
+  padding: 20px 10px;
   width: 100%;
 }
 
@@ -39,7 +39,7 @@
   background-image: url('../images/cobweb.jpg');
   background-size: 4rem auto;
   background-position: top left;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   margin: 1rem;
   padding: 2rem;
   width: 90%;

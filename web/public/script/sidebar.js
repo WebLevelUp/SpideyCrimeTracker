@@ -1,74 +1,35 @@
-function toggleSidebar() {
-    let sidebar = document.querySelector('.sidebar');
-    let btn = document.querySelector('.btn');
+function load() {
+    function toggleSidebar() {
+        let sidebar = document.querySelector('.sidebar');
+        let btn = document.querySelector('.btn');
 
-    sidebar.classList.toggle('active');
-    btn.classList.toggle('change');
-}
+        sidebar.classList.toggle('active');
+        btn.classList.toggle('change');
+    }
 
-const logoutButton = document.getElementById('logout-btn');
-logoutButton.addEventListener('click', () => {
-    localStorage.clear();
-    window.router('/');
-});
+    const logoutButton = document.getElementById('logout-btn');
+    logoutButton.addEventListener('click', () => {
+        localStorage.clear();
+        window.router('/');
+    });
 
-const adminBtn = '<a onclick="router(\'/admin\')">\
+    const adminBtn = '<a onclick="router(\'/admin\')">\
     <img class="user-icon" src="../images/administrator.png">\
     <span class="nav-item">Admin</span>\
 </a>\
 <span class="tooltip">Admin</span>';
 
-const sidebarList = document.getElementById('sidebar-list');
+    const sidebarList = document.getElementById('sidebar-list');
 
-if (localStorage.getItem('role') === 'admin') {
-    const listElement = document.createElement('li');
-    listElement.innerHTML = adminBtn;
-    sidebarList.append(listElement);
+    if (localStorage.getItem('role') === 'admin') {
+        const listElement = document.createElement('li');
+        listElement.innerHTML = adminBtn;
+        sidebarList.append(listElement);
+    }
+
+    window.toggleSidebar = toggleSidebar;
 }
 
-// const sidebar = document.querySelector('.sidebar');
-// const toggleButton = document.createElement('button');
-
-// toggleButton.textContent = 'Toggle Sidebar';
-// toggleButton.classList.add('toggle-button');
-
-// sidebar.appendChild(toggleButton);
-
-// toggleButton.addEventListener('click', () => {
-//     sidebar.classList.toggle('active'); //
-// });
-
-// const sidebarItems = [
-//     { icon: '../images/spyware.jpg', text: 'Report a crime', tooltip: 'Report a crime', link: '#' },
-//     { icon: '../images/web.jpg', text: 'View Statistics', tooltip: 'View Statistics', link: '#' },
-//     { icon: '../images/investigation.jpg', text: 'View recent crimes', tooltip: 'View recent crimes', link: '#' }
-// ];
-
-// function generateSidebar() {
-//     const sidebarList = document.getElementById('sidebarList');
-
-//     sidebarItems.forEach(item => {
-//         const listItem = document.createElement('li');
-//         const link = document.createElement('a');
-//         const icon = document.createElement('img');
-//         const text = document.createElement('span');
-//         const tooltip = document.createElement('span');
-
-//         link.href = item.link;
-//         icon.src = item.icon;
-//         icon.className = 'user-icon';
-//         icon.alt = item.text;
-//         text.className = 'nav-item';
-//         text.textContent = item.text;
-//         tooltip.className = 'tooltip';
-//         tooltip.textContent = item.tooltip;
-
-//         link.appendChild(icon);
-//         link.appendChild(text);
-//         listItem.appendChild(link);
-//         listItem.appendChild(tooltip);
-//         sidebarList.appendChild(listItem);
-//     });
-// }
-
-// generateSidebar();
+document.addEventListener('sidebar.js', () => {
+    load();
+});

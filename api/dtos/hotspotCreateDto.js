@@ -1,11 +1,9 @@
 export class HotspotCreateDto {
-    description;
-    areaID;
-    hotspotTypeID;
+    areaId;
+    hotspotTypeId;
 
-    constructor(areaId, province, suburb, hotspotTypeID) {
-        this.description = province;
-        this.areaID = suburb;
-        this.hotspotTypeID = hotspotTypeID;
+    constructor(areaId, hotspotTypeId) {
+        this.areaId = areaId;
+        this.hotspotTypeId = hotspotTypeId;
     }
 }
