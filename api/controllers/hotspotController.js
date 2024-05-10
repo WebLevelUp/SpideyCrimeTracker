@@ -26,7 +26,11 @@ export function hotspotController() {
     });
 
     app.post('/hotspot', async (req, res) => {
-        await createHotspot(req.body);
+        try {
+            await createHotspot(req.body);
+        } catch (e) {
+            return res.sendStatus(400);
+        }
         res.sendStatus(201);
     });
 }

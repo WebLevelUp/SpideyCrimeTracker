@@ -4,12 +4,21 @@ function getAccessToken() {
     return `Bearer ${localStorage.getItem('access_token')}`;
 }
 
+async function customFetch(url, options) {
+    const response = await fetch(url, options);
+    if (response.status === 401 || response.status === 403) {
+        localStorage.clear();
+        window.router('/');
+    }
+    return response;
+}
+
 export async function getToken(code) {
     const body = {
         code,
     };
 
-    const response = await fetch(`${apiUrl}/auth/login`, {
+    const response = await customFetch(`${apiUrl}/auth/login`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -21,7 +30,7 @@ export async function getToken(code) {
 }
 
 export async function getAllProvinces() {
-    const response = await fetch(`${apiUrl}/area/province`, {
+    const response = await customFetch(`${apiUrl}/area/province`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +43,7 @@ export async function getAllProvinces() {
 
 export async function getSuburbsForProvince(province) {
     const params = new URLSearchParams({province}).toString();
-    const response = await fetch(`${apiUrl}/area/suburb?${params}`, {
+    const response = await customFetch(`${apiUrl}/area/suburb?${params}`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +55,7 @@ export async function getSuburbsForProvince(province) {
 }
 
 export async function getAllCrimeTypes() {
-    const response = await fetch(`${apiUrl}/hotspotType`, {
+    const response = await customFetch(`${apiUrl}/hotspotType`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -58,7 +67,7 @@ export async function getAllCrimeTypes() {
 }
 
 export async function createIncident(data) {
-    const response = await fetch(`${apiUrl}/incident`, {
+    const response = await customFetch(`${apiUrl}/incident`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -66,10 +75,12 @@ export async function createIncident(data) {
         },
         body: JSON.stringify(data)
     });
+
+    return response.status;
 }
 
 export async function getIncidentStatistics() {
-    const response = await fetch(`${apiUrl}/incidents/statistics`, {
+    const response = await customFetch(`${apiUrl}/incidents/statistics`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -81,7 +92,7 @@ export async function getIncidentStatistics() {
 }
 
 export async function getIncidents() {
-    return fetch(`${apiUrl}/incident`, {
+    return customFetch(`${apiUrl}/incident`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -91,7 +102,7 @@ export async function getIncidents() {
 }
 
 export async function getHotSpots() {
-    return fetch(`${apiUrl}/hotspot`, {
+    return customFetch(`${apiUrl}/hotspot`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -101,7 +112,7 @@ export async function getHotSpots() {
 }
 
 export async function getHotSpotTypes() {
-    return fetch(`${apiUrl}/hotspotType`, {
+    return customFetch(`${apiUrl}/hotspotType`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -111,7 +122,7 @@ export async function getHotSpotTypes() {
 }
 
 export async function getAreas() {
-    return fetch(`${apiUrl}/area`, {
+    return customFetch(`${apiUrl}/area`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -121,7 +132,7 @@ export async function getAreas() {
 }
 
 export async function createArea(data) {
-    const response = await fetch(`${apiUrl}/area`, {
+    const response = await customFetch(`${apiUrl}/area`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -129,10 +140,12 @@ export async function createArea(data) {
         },
         body: JSON.stringify(data)
     });
+
+    return response.status;
 }
 
 export async function createTypeOfCrime(data) {
-    const response = await fetch(`${apiUrl}/hotspotType`, {
+    const response = await customFetch(`${apiUrl}/hotspotType`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -143,7 +156,7 @@ export async function createTypeOfCrime(data) {
 }
 
 export async function getUsers() {
-    const response = await fetch(`${apiUrl}/user`, {
+    const response = await customFetch(`${apiUrl}/user`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -155,7 +168,7 @@ export async function getUsers() {
 }
 
 export async function getRoles() {
-    const response = await fetch(`${apiUrl}/role`, {
+    const response = await customFetch(`${apiUrl}/role`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -167,7 +180,7 @@ export async function getRoles() {
 }
 
 export async function updateUserRole(data) {
-    const response = await fetch(`${apiUrl}/user`, {
+    const response = await customFetch(`${apiUrl}/user`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -175,4 +188,6 @@ export async function updateUserRole(data) {
         },
         body: JSON.stringify(data)
     });
+
+    return response.status;
 }

@@ -8,7 +8,11 @@ export function hotspotTypeController() {
     });
 
     app.post('/hotspotType', async (req, res) => {
-        await createHotspotTypeIfNotExists(req.body);
+        try {
+            await createHotspotTypeIfNotExists(req.body);
+        } catch (e) {
+            return res.sendStatus(400);
+        }
         res.sendStatus(201);
     });
 }

@@ -4,7 +4,11 @@ import {createRole, getAllRoles} from '../data/roleRepository.js';
 export function roleController() {
     app.post('/role', async (req, res) => {
         const body = req.body;
-        await createRole(body.roleType);
+        try {
+            await createRole(body.roleType);
+        } catch (e) {
+            return res.sendStatus(400);
+        }
         res.sendStatus(201);
     });
 

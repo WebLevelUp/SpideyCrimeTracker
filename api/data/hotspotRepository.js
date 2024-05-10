@@ -17,7 +17,7 @@ export function getAllHotspots(options = {}) {
                  FROM ${tableName}`;
     const params = [];
 
-    if (options.areaID !== undefined) {
+    if (options.areaId !== undefined) {
         query += ' WHERE areaId = @areaId';
         params.push({name: 'areaId', type: TYPES.Int, value: options.areaId});
     }
@@ -58,6 +58,5 @@ export async function getOrCreateHotspot(areaId, hotspotTypeId) {
         await createHotspot({areaId, hotspotTypeId});
         hotspots = await getAllHotspots({areaId, hotspotTypeId});
     }
-
     return hotspots[0];
 }

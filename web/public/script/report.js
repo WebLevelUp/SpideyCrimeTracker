@@ -1,16 +1,17 @@
 import {createIncident, getAllCrimeTypes, getAllProvinces, getSuburbsForProvince} from './apiClient.js';
 
-function toggleSuccessMessage() {
-    let successMsg = document.querySelector('.success-message');
-    successMsg.classList.toggle('active');
-}
-
-function showSuccessMessage() {
-    toggleSuccessMessage();
-    setTimeout(() => toggleSuccessMessage(), 2000);
-}
-
 function load() {
+    let successMsg = document.querySelector('.response-message');
+
+    function toggleMessage() {
+        successMsg.classList.toggle('active');
+    }
+
+    function showMessage() {
+        toggleMessage();
+        setTimeout(() => toggleMessage(), 2000);
+    }
+
     const areaSelect = document.getElementById('area');
     const provinceSelect = document.getElementById('province');
     const crimeSelect = document.getElementById('crime-type');
@@ -91,16 +92,21 @@ function load() {
         if (errorInputs.length > 0) return;
 
         const formData = {
-            hotspotTypeId: crime,
+            hotspotTypeId: Number(crime),
             description: description,
-            areaId: area,
+            areaId: Number(area),
             date: date
         };
 
         form.reset();
 
-        createIncident(formData).then(() => {
-            showSuccessMessage();
+        createIncident(formData).then((status) => {
+            if (status === 201) {
+                successMsg.innerText = 'Successfully Submitted!';
+            } else {
+                successMsg.innerText = 'An error occurred';
+            }
+            showMessage();
         });
     }
 
@@ -109,7 +115,7 @@ function load() {
     provinceSelect.addEventListener('change', () => {
         areaSelect.disabled = true;
         getSuburbsForProvince(provinceSelect.value).then((areas) => {
-            areaSelect.innerHTML = '';
+            areaSelect.innerHTML = '<option value="" selected disabled>Select a Suburb</option>';
             areas.map(area => {
                 const option = document.createElement('option');
                 option.value = area.areaId;
