@@ -1,14 +1,5 @@
 import {createArea, createTypeOfCrime, getAllProvinces, getRoles, getUsers, updateUserRole} from './apiClient.js';
 
-function toggleSuccessMessage() {
-    let successMsg = document.querySelector('.success-message');
-    successMsg.classList.toggle('active');
-}
-
-function showSuccessMessage() {
-    toggleSuccessMessage();
-    setTimeout(() => toggleSuccessMessage(), 2000);
-}
 
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.content-section');
@@ -26,6 +17,17 @@ function showSection(sectionId) {
 }
 
 function load() {
+    let responseMsg = document.querySelector('.response-message');
+
+    function toggleMessage() {
+        responseMsg.classList.toggle('active');
+    }
+
+    function showMessage() {
+        toggleMessage();
+        setTimeout(() => toggleMessage(), 2000);
+    }
+
     const areaForm = document.getElementById('areaForm');
     const crimeForm = document.getElementById('crimeForm');
     const userTypeForm = document.getElementById('userTypeForm');
@@ -60,8 +62,8 @@ function load() {
 
         clearErrors();
 
-        if (area === "") showError(areaInput, "Please add a suburb");
-        if (province === "") showError(provinceDropdown, "Please select a province");
+        if (area === '') showError(areaInput, 'Please add a suburb');
+        if (province === '') showError(provinceDropdown, 'Please select a province');
 
         if (document.querySelectorAll('.error').length > 0) return;
 
@@ -71,8 +73,14 @@ function load() {
         };
 
         areaForm.reset();
-        await createArea(formData);
-        showSuccessMessage();
+        createArea(formData).then((status) => {
+            if (status === 201) {
+                responseMsg.innerText = 'Successfully Submitted!';
+            } else {
+                responseMsg.innerText = 'An error occurred';
+            }
+            showMessage();
+        });
     });
 
     crimeForm.addEventListener('submit', async function (e) {
@@ -83,15 +91,21 @@ function load() {
 
         clearErrors();
 
-        if (crime === "") showError(crimeInput, "Please enter your type of crime");
+        if (crime === '') showError(crimeInput, 'Please enter your type of crime');
 
-        if (document.querySelectorAll(".error").length > 0) return;
+        if (document.querySelectorAll('.error').length > 0) return;
 
         if (document.querySelectorAll('.error').length > 0) return;
         const formData = {hotspotType: crime};
         crimeForm.reset();
-        await createTypeOfCrime(formData);
-        showSuccessMessage();
+        createTypeOfCrime(formData).then((status) => {
+            if (status === 201) {
+                responseMsg.innerText = 'Successfully Submitted!';
+            } else {
+                responseMsg.innerText = 'An error occurred';
+            }
+            showMessage();
+        });
     });
 
     getUsers().then((users) => {
@@ -134,8 +148,8 @@ function load() {
 
         clearErrors();
 
-        if (userId === "") showError(userNameDropdown, "Please select a user");
-        if (roleId === "") showError(userTypeDropdown, "Please Select a role");
+        if (userId === '') showError(userNameDropdown, 'Please select a user');
+        if (roleId === '') showError(userTypeDropdown, 'Please Select a role');
 
         if (document.querySelectorAll('.error').length > 0) return;
 
@@ -145,12 +159,19 @@ function load() {
         userNameSelect.disabled = true;
         userTypeSelect.disabled = true;
 
-        await updateUserRole(userFormData);
+        updateUserRole(userFormData).then((status) => {
+            if (status === 204) {
+                responseMsg.innerText = 'Successfully Submitted!';
+            } else {
+                responseMsg.innerText = 'An error occurred';
+            }
+            showMessage();
+        });
+        
         allUsers = await getUsers();
 
         userNameSelect.disabled = false;
         userTypeSelect.disabled = false;
-        showSuccessMessage();
     });
 
     function clearErrors() {
@@ -159,9 +180,9 @@ function load() {
     }
 
     function showError(element, message) {
-        element.classList.add("error");
-        const errorText = document.createElement("medium");
-        errorText.className = "error-text";
+        element.classList.add('error');
+        const errorText = document.createElement('medium');
+        errorText.className = 'error-text';
         errorText.textContent = message;
         element.closest('.form-group').appendChild(errorText);
     }

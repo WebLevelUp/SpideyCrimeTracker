@@ -7,7 +7,11 @@ export function areaController() {
     });
 
     app.post('/area', async (req, res) => {
-        await createAreaIfNotExists(req.body);
+        try {
+            await createAreaIfNotExists(req.body);
+        } catch (e) {
+            return res.sendStatus(400);
+        }
         res.sendStatus(201);
     });
 
