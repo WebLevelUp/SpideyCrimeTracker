@@ -66,8 +66,6 @@ export async function createIncident(data) {
         },
         body: JSON.stringify(data)
     });
-
-    return response.json();
 }
 
 export async function getIncidentStatistics() {
