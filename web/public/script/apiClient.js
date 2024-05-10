@@ -153,6 +153,8 @@ export async function createTypeOfCrime(data) {
         },
         body: JSON.stringify(data)
     });
+
+    return response.status;
 }
 
 export async function getUsers() {
